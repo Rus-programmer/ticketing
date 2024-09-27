@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { updateIfCurrentPlugin } from 'mongoose-update-if-current';
+import {updateIfCurrentPlugin} from 'mongoose-update-if-current';
 
 interface TicketAttrs {
   title: string;
@@ -10,6 +10,7 @@ interface TicketAttrs {
 interface TicketDoc extends mongoose.Document {
   title: string;
   price: number;
+  orderId?: number;
   userId: string;
   version: number;
 }
@@ -32,6 +33,9 @@ const ticketSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+      orderId: {
+          type: String,
+      },
   },
   {
     toJSON: {
