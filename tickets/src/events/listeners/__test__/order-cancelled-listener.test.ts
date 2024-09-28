@@ -1,11 +1,10 @@
-import {Listener, OrderCreatedEvent, OrderStatus} from "@rtticketingorg/common";
+import {Listener, OrderCancelledEvent} from "@rtticketingorg/common";
 import mongoose from "mongoose";
 import {Message} from "node-nats-streaming";
 
 import {Ticket} from "../../../models/ticket";
-import {OrderCreatedListener} from "../order-created-listener";
 import {natsWrapper} from "../../../nats-wrapper";
-import {rootLogger} from "ts-jest";
+import {OrderCancelledListener} from "../order-cancelled-listener";
 
 const msg: jest.MockedObject<Message> = {
     getCrc32: jest.fn(),
@@ -19,8 +18,8 @@ const msg: jest.MockedObject<Message> = {
     ack: jest.fn()
 }
 
-describe('OrderCreatedListener', () => {
-    let data: OrderCreatedEvent['data'], listener: Listener<OrderCreatedEvent>;
+describe('OrderCancelledListener', () => {
+    let data: OrderCancelledEvent['data'], listener: Listener<OrderCancelledEvent>;
     beforeEach(async () => {
         const ticket = Ticket.build({
             title: 'condf',
@@ -31,24 +30,20 @@ describe('OrderCreatedListener', () => {
 
         data = {
             id: new mongoose.Types.ObjectId().toHexString(),
-            status: OrderStatus.Created,
-            expiresAt: 'fd',
             ticket: {
                 id: ticket.id,
-                price: ticket.price,
             },
             version: 0,
-            userId: new mongoose.Types.ObjectId().toHexString()
         }
 
-        listener = new OrderCreatedListener(natsWrapper.client)
+        listener = new OrderCancelledListener(natsWrapper.client)
     })
 
-    it('should sets orderId of the ticket', async function () {
+    it('should sets orderId of the ticket to undefined', async function () {
         await listener.onMessage(data, msg);
         const ticket = await Ticket.findById(data.ticket.id)
         expect(ticket).toBeDefined()
-        expect(ticket?.orderId).toEqual(data.id)
+        expect(ticket?.orderId).not.toBeDefined()
     });
 
     it('should ack the message', async function () {

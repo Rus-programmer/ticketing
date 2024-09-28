@@ -4,7 +4,7 @@ import {
   validateRequest,
   NotFoundError,
   requireAuth,
-  NotAuthorizedError,
+  NotAuthorizedError, BadRequestError,
 } from '@rtticketingorg/common';
 import { Ticket } from '../models/ticket';
 import { TicketUpdatedPublisher } from '../events/publishers/ticket-updated-publisher';
@@ -33,12 +33,16 @@ router.put(
       throw new NotAuthorizedError();
     }
 
+    if (ticket.orderId) {
+      throw new BadRequestError('Cannot edit a reserved ticket')
+    }
+
     ticket.set({
       title: req.body.title,
       price: req.body.price,
     });
     await ticket.save();
-    new TicketUpdatedPublisher(natsWrapper.client).publish({
+    await new TicketUpdatedPublisher(natsWrapper.client).publish({
       id: ticket.id,
       title: ticket.title,
       price: ticket.price,
