@@ -4,7 +4,6 @@ import {app} from '../../app';
 import {Order} from "../../models/order";
 import {OrderStatus} from "@rtticketingorg/common";
 import {stripe} from "../../stripe";
-import {Payment} from "../../models/payments";
 
 jest.mock('../../stripe')
 

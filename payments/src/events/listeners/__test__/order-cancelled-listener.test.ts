@@ -1,4 +1,4 @@
-import {Listener, OrderCancelledEvent, OrderCreatedEvent, OrderStatus} from "@rtticketingorg/common";
+import {Listener, OrderCancelledEvent, OrderStatus} from "@rtticketingorg/common";
 import mongoose from "mongoose";
 import {Message} from "node-nats-streaming";
 
