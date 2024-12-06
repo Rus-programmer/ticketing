@@ -10,10 +10,9 @@ import databaseConfig from './config/database.config';
 import jwtConfig from './config/jwt.config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { JwtModule } from '@nestjs/jwt';
-import { UtilsModule } from './shared/utils/utils.module';
 import { APP_GUARD } from '@nestjs/core';
-import { AuthGuard } from './shared/guards/auth.guard';
 import { SignOutModule } from './sign-out/sign-out.module';
+import { AuthGuard, UtilsModule } from '@my-rus-package/ticketing';
 
 @Module({
   imports: [

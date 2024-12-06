@@ -4,15 +4,14 @@ import {
   Controller,
   Post,
   Req,
-  Session,
   UseInterceptors,
 } from '@nestjs/common';
 import { Request } from 'express';
 import { SignUpDto } from '../dtos/sign-up.dto';
 import { SignUpService } from './sign-up.service';
 import { Auth } from '../decorators/auth.decorator';
-import { AuthType } from '../enums/auth.type.enum';
 import { SessionService } from '../services/session.service';
+import { AuthType } from '@my-rus-package/ticketing';
 
 @Controller('sign-up')
 export class SignUpController {

@@ -8,10 +8,10 @@ import {
 } from '@nestjs/common';
 import { Request } from 'express';
 import { Auth } from '../decorators/auth.decorator';
-import { AuthType } from '../enums/auth.type.enum';
 import { SignInService } from './sign-in.service';
 import { SignInDto } from '../dtos/sign-in.dto';
 import { SessionService } from '../services/session.service';
+import { AuthType } from '@my-rus-package/ticketing';
 
 @Controller('sign-in')
 export class SignInController {

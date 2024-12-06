@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { CreateUserController } from './create-user.controller';
 import { CreateUserService } from './create-user.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { User } from '../../entities/user.entity';
+import { User } from '@my-rus-package/ticketing';
 
 @Module({
   controllers: [CreateUserController],

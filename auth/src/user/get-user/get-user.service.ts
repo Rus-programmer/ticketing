@@ -3,10 +3,9 @@ import {
   Injectable,
   InternalServerErrorException,
 } from '@nestjs/common';
-import { Observable } from 'rxjs';
 import { InjectRepository } from '@nestjs/typeorm';
-import { User } from '../../entities/user.entity';
 import { Repository } from 'typeorm';
+import { User } from '@my-rus-package/ticketing';
 
 @Injectable()
 export class GetUserService {

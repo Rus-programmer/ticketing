@@ -8,8 +8,8 @@
     "allowSyntheticDefaultImports": true,
     "target": "ES2021",
     "sourceMap": true,
-    "outDir": "./dist",
-    "rootDir": "./",
+    "outDir": "./dist/",
+    "rootDir": "./src",
     "baseUrl": "./",
     "incremental": true,
     "skipLibCheck": true,
@@ -17,9 +17,6 @@
     "noImplicitAny": false,
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
-    "noFallthroughCasesInSwitch": false,
-    "paths": {
-      "@my-rus-package/ticketing": ["node_modules/@my-rus-package/ticketing"]
-    }
+    "noFallthroughCasesInSwitch": false
   }
 }

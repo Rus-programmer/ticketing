@@ -5,10 +5,9 @@ import {
   InternalServerErrorException,
 } from '@nestjs/common';
 import { SignUpDto } from '../../dtos/sign-up.dto';
-import { User } from '../../entities/user.entity';
-import { HashingService } from '../../shared/utils/hashing.service';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { HashingService, User } from '@my-rus-package/ticketing';
 
 @Injectable()
 export class CreateUserService {

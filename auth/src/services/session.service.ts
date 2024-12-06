@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { Request } from 'express';
-import { ISessionData } from '../shared/interfaces/session.interface';
 import { SessionData } from 'express-session';
+import { ISessionData } from '@my-rus-package/ticketing';
 
 @Injectable()
 export class SessionService {
