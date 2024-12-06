@@ -15,6 +15,23 @@ spec:
       containers:
         - name: auth
           image: rustolebayev/auth
+          env:
+            - name: DATABASE_PASSWORD
+              value: password
+            - name: SESSION_SECRET
+              value: some-session-secret
+            - name: DATABASE_NAME
+              value: auth
+            - name: DATABASE_HOST
+              value: auth-database-srv
+            - name: JWT_ACCESS_SECRET
+              value: some-access-secret
+            - name: JWT_ACCESS_TTL
+              value: '15m'
+            - name: JWT_REFRESH_SECRET
+              value: some-refresh-secret
+            - name: JWT_REFRESH_TTL
+              value: '7d'
 ---
 apiVersion: v1
 kind: Service
