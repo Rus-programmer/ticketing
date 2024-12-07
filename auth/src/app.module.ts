@@ -2,8 +2,6 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { SignInModule } from './sign-in/sign-in.module';
-import { SignUpModule } from './sign-up/sign-up.module';
 import environmentValidation from './config/environment.validation';
 import appConfig from './config/app.config';
 import databaseConfig from './config/database.config';
@@ -11,13 +9,11 @@ import jwtConfig from './config/jwt.config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { JwtModule } from '@nestjs/jwt';
 import { APP_GUARD } from '@nestjs/core';
-import { SignOutModule } from './sign-out/sign-out.module';
 import { AuthGuard, UtilsModule } from '@my-rus-package/ticketing';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
-    SignInModule,
-    SignUpModule,
     ConfigModule.forRoot({
       isGlobal: true,
       load: [appConfig, databaseConfig, jwtConfig],
@@ -36,7 +32,7 @@ import { AuthGuard, UtilsModule } from '@my-rus-package/ticketing';
     }),
     UtilsModule,
     TypeOrmModule.forRootAsync(databaseConfig.asProvider() as any),
-    SignOutModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [

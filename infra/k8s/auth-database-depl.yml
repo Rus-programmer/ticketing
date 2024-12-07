@@ -3,7 +3,7 @@ kind: StatefulSet
 metadata:
   name: auth-database-depl
 spec:
-  serviceName: "postgres"
+  serviceName: auth-database-srv
   selector:
     matchLabels:
       app: auth-database
@@ -43,4 +43,5 @@ spec:
     app: auth-database
   ports:
     - port: 5432
+      targetPort: 5432
       name: auth-database
