@@ -1,25 +1,25 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: auth-database-depl
+  name: users-database-depl
 spec:
-  serviceName: auth-database-srv
+  serviceName: users-database-srv
   selector:
     matchLabels:
-      app: auth-database
+      app: users-database
   template:
     metadata:
       labels:
-        app: auth-database
+        app: users-database
     spec:
       containers:
-        - name: auth-database
+        - name: users-database
           image: postgres:17.2-alpine3.19
           env:
             - name: POSTGRES_PASSWORD
               value: password
             - name: POSTGRES_DB
-              value: auth
+              value: postgres
             - name: POSTGRES_USER
               value: postgres
           volumeMounts:
@@ -37,11 +37,11 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: auth-database-srv
+  name: users-database-srv
 spec:
   selector:
-    app: auth-database
+    app: users-database
   ports:
     - port: 5432
       targetPort: 5432
-      name: auth-database
+      name: users-database

@@ -4,19 +4,17 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import environmentValidation from './config/environment.validation';
 import appConfig from './config/app.config';
-import databaseConfig from './config/database.config';
 import jwtConfig from './config/jwt.config';
-import { TypeOrmModule } from '@nestjs/typeorm';
 import { JwtModule } from '@nestjs/jwt';
 import { APP_GUARD } from '@nestjs/core';
-import { AuthGuard, UtilsModule } from '@my-rus-package/ticketing';
+import { AuthGuard } from '@my-rus-package/ticketing';
 import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      load: [appConfig, databaseConfig, jwtConfig],
+      load: [appConfig, jwtConfig],
       validationSchema: environmentValidation,
     }),
     JwtModule.registerAsync({
@@ -30,8 +28,6 @@ import { AuthModule } from './auth/auth.module';
         },
       }),
     }),
-    UtilsModule,
-    TypeOrmModule.forRootAsync(databaseConfig.asProvider() as any),
     AuthModule,
   ],
   controllers: [AppController],

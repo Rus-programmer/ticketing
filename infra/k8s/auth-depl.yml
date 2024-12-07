@@ -16,14 +16,6 @@ spec:
         - name: auth
           image: rustolebayev/auth
           env:
-            - name: DATABASE_PASSWORD
-              value: password
-            - name: SESSION_SECRET
-              value: some-session-secret
-            - name: DATABASE_NAME
-              value: auth
-            - name: DATABASE_HOST
-              value: auth-database-srv
             - name: JWT_ACCESS_SECRET
               value: some-access-secret
             - name: JWT_ACCESS_TTL

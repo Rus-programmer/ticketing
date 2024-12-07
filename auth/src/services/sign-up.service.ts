@@ -4,10 +4,7 @@ import { TokenGeneratorService } from './token-generator.service';
 
 @Injectable()
 export class SignUpService {
-  constructor(
-    private createUserService: CreateUserService,
-    private tokenGeneratorService: TokenGeneratorService,
-  ) {}
+  constructor(private tokenGeneratorService: TokenGeneratorService) {}
 
   async signUp(createUserDto: SignUpDto) {
     const createdUser = await this.createUserService.create(createUserDto);
