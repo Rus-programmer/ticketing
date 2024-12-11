@@ -6,6 +6,7 @@ import { User, UtilsModule } from '@my-rus-package/ticketing';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { USERS_SERVICE } from '../constants/kafka.constants';
+import { GetUserService } from '../services/get-user.service';
 
 @Module({
   imports: [
@@ -28,6 +29,6 @@ import { USERS_SERVICE } from '../constants/kafka.constants';
     ]),
   ],
   controllers: [UsersController],
-  providers: [UsersService, CreateUserService],
+  providers: [UsersService, CreateUserService, GetUserService],
 })
 export class UsersModule {}

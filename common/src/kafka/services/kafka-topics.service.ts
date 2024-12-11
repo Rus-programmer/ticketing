@@ -1,6 +1,6 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
 import { Kafka } from 'kafkajs';
-import { CREATE_USER } from '../constants/topics.constants';
+import { CREATE_USER, GET_USER_BY_EMAIL } from '../constants/topics.constants';
 
 @Injectable()
 export class KafkaTopicsService implements OnModuleInit {
@@ -18,6 +18,16 @@ export class KafkaTopicsService implements OnModuleInit {
         },
         {
           topic: `${CREATE_USER}.reply`,
+          numPartitions: 3,
+          replicationFactor: 1,
+        },
+        {
+          topic: GET_USER_BY_EMAIL,
+          numPartitions: 3,
+          replicationFactor: 1,
+        },
+        {
+          topic: `${GET_USER_BY_EMAIL}.reply`,
           numPartitions: 3,
           replicationFactor: 1,
         },
