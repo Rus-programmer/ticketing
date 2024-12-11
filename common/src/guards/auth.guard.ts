@@ -10,7 +10,7 @@ import { Reflector } from '@nestjs/core';
 import { AUTH_TYPE_KEY } from '../constants/auth.constants';
 import { AuthType } from '../enums/auth.type.enum';
 import { ConfigService } from '@nestjs/config';
-import { ISessionData } from '../interfaces/session.interface';
+import { ISessionData, ITokens } from '../interfaces/session.interface';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -36,9 +36,11 @@ export class AuthGuard implements CanActivate {
         ? this.configService.get('jwt.refreshTokenSecret')
         : this.configService.get('jwt.accessTokenSecret');
     const request = context.switchToHttp().getRequest();
-    const token = request.session.tokens?.[tokenType];
+    const session: ISessionData = request.session;
+
+    const token = session.tokens?.[tokenType];
     const isUserAgentTrusted =
-      request['user-agent'] === request.session.userAgent;
+      request.headers['user-agent'] === session.userAgent;
 
     if (!token || !isUserAgentTrusted) {
       throw new UnauthorizedException();
@@ -56,7 +58,7 @@ export class AuthGuard implements CanActivate {
 
 declare module 'express-session' {
   interface SessionData {
-    tokens: ISessionData;
+    tokens: ITokens;
     userAgent: string;
   }
 }

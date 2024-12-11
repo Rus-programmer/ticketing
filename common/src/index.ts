@@ -12,6 +12,8 @@ export * from './guards/auth.guard';
 
 export * from './interfaces/session.interface';
 
+export * from './decorators/auth.decorator';
+
 export * from './utils/utils.module';
 export * from './utils/hashing.service';
 
