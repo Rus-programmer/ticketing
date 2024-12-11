@@ -1,11 +1,16 @@
 import { Injectable } from '@nestjs/common';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export abstract class HashingService {
-  abstract hashPassword(password: string | Buffer): Promise<string>;
+  abstract hashPassword(
+    password: string,
+    options?: Record<string, string>,
+  ): Promise<string> | string;
 
   abstract comparePassword(
-    password: string | Buffer,
+    password: string,
     encryptedPassword: string,
-  ): Promise<boolean>;
+    options?: Record<string, string>,
+  ): Promise<boolean> | boolean;
 }

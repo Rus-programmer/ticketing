@@ -4,19 +4,21 @@ import {
   Injectable,
   InternalServerErrorException,
 } from '@nestjs/common';
-import { SignUpDto } from '../../../auth/src/dtos/sign-up.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { CreateUserDto } from '../dtos/create-user.dto';
 import { HashingService, User } from '@my-rus-package/ticketing';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class CreateUserService {
   constructor(
     @Inject(HashingService) private readonly hashingService: HashingService,
+    @Inject(ConfigService) private readonly configService: ConfigService,
     @InjectRepository(User) private readonly userRepository: Repository<User>,
   ) {}
 
-  async create(createUserDto: SignUpDto) {
+  async create(createUserDto: CreateUserDto) {
     let existingUser: User;
     try {
       existingUser = await this.userRepository.findOne({
@@ -33,9 +35,13 @@ export class CreateUserService {
     }
 
     try {
-      const hashedPassword = await this.hashingService.hashPassword(
+      const binaryKey = this.configService.get('appConfig.binaryKey');
+      // I used this binaryKey for simplicity. For a real use case this is not compatible
+      const hashedPassword = this.hashingService.hashPassword(
         createUserDto.password,
-      );
+        { key: binaryKey, iv: binaryKey.slice(0, 16) },
+      ) as string;
+
       let newUser = this.userRepository.create({
         ...createUserDto,
         password: hashedPassword,

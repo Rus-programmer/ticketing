@@ -1,8 +1,10 @@
 import { INestApplication, ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import * as session from 'express-session';
+import kafkaConfig from './config/kafka.config';
+import { Kafka } from 'kafkajs';
 
-export default function (app: INestApplication) {
+export default async function (app: INestApplication) {
   const configService = app.get(ConfigService);
   app.use(
     session({
@@ -23,4 +25,8 @@ export default function (app: INestApplication) {
       transform: true,
     }),
   );
+  app.connectMicroservice(kafkaConfig, {
+    inheritAppConfig: true,
+  });
+  await app.startAllMicroservices();
 }

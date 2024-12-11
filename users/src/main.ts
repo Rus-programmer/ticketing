@@ -4,7 +4,7 @@ import appCreate from './app-create';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  appCreate(app);
+  await appCreate(app);
   await app.listen(process.env.PORT ?? 3000);
 }
 bootstrap();

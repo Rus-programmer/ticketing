@@ -1,43 +1,55 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: user-depl
+  name: users-depl
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: user
+      app: users
   template:
     metadata:
       labels:
-        app: user
+        app: users
     spec:
+      initContainers:
+        - name: wait-for-kafka
+          image: busybox
+          command:
+            - sh
+            - -c
+            - |
+              until nc -z kafka-srv 9092; do
+                echo "Waiting for Kafka to be ready...";
+                sleep 2;
+              done;
+              echo "Kafka is ready!";
       containers:
-        - name: user
-          image: rustolebayev/user
+        - name: users
+          image: rustolebayev/users
           env:
             - name: DATABASE_PASSWORD
               value: password
-            - name: SESSION_SECRET
-              value: some-session-secret
             - name: DATABASE_NAME
-              value: auth
+              value: postgres
             - name: DATABASE_HOST
-              value: auth-database-srv
+              value: users-database-srv
             - name: JWT_ACCESS_SECRET
               value: some-access-secret
             - name: JWT_REFRESH_SECRET
               value: some-refresh-secret
+            - name: BINARY_KEY
+              value: "11110101010100000100111010110100"
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: user-srv
+  name: users-srv
 spec:
   selector:
-    app: user
+    app: users
   ports:
     - port: 3000
       targetPort: 3000
-      name: user
+      name: users
       protocol: TCP

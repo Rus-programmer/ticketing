@@ -12,10 +12,24 @@ spec:
       labels:
         app: auth
     spec:
+      initContainers:
+        - name: wait-for-kafka
+          image: busybox
+          command:
+            - sh
+            - -c
+            - |
+              until nc -z kafka-srv 9092; do
+                echo "Waiting for Kafka to be ready...";
+                sleep 2;
+              done;
+              echo "Kafka is ready!";
       containers:
         - name: auth
           image: rustolebayev/auth
           env:
+            - name: SESSION_SECRET
+              value: some-session-secret
             - name: JWT_ACCESS_SECRET
               value: some-access-secret
             - name: JWT_ACCESS_TTL

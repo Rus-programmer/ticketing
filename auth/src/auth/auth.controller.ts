@@ -26,7 +26,6 @@ export class AuthController {
 
   @Post('sign-up')
   @Auth(AuthType.None)
-  @UseInterceptors(ClassSerializerInterceptor)
   async signUp(@Body() createUserDto: SignUpDto, @Req() request: Request) {
     const data = await this.authService.signUp(createUserDto);
 
@@ -37,7 +36,6 @@ export class AuthController {
 
   @Post('sign-in')
   @Auth(AuthType.RefreshToken)
-  @UseInterceptors(ClassSerializerInterceptor)
   async signIn(@Body() updateUserDto: SignInDto, @Req() request: Request) {
     const data = await this.authService.signIn(updateUserDto);
     this.sessionService.assign(request, data);

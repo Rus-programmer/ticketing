@@ -24,8 +24,8 @@ build:
         manual:
           - src: "src/**/*.ts"
             dest: .
-    - image: rustolebayev/user
-      context: user
+    - image: rustolebayev/users
+      context: users
       docker:
         dockerfile: Dockerfile
       sync:

@@ -7,7 +7,7 @@ import appConfig from './config/app.config';
 import jwtConfig from './config/jwt.config';
 import { JwtModule } from '@nestjs/jwt';
 import { APP_GUARD } from '@nestjs/core';
-import { AuthGuard } from '@my-rus-package/ticketing';
+import { AuthGuard, KafkaTopicsService } from '@my-rus-package/ticketing';
 import { AuthModule } from './auth/auth.module';
 
 @Module({
@@ -37,6 +37,7 @@ import { AuthModule } from './auth/auth.module';
       provide: APP_GUARD,
       useClass: AuthGuard,
     },
+    KafkaTopicsService,
   ],
 })
 export class AppModule {}
