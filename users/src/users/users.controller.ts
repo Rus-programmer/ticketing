@@ -4,8 +4,7 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { MessagePattern, Payload } from '@nestjs/microservices';
-import { CREATE_USER } from '@my-rus-package/ticketing';
-import { CreateUserDto } from '../dtos/create-user.dto';
+import { CREATE_USER, CreateUserDto } from '@my-rus-package/ticketing';
 import { CreateUserService } from '../services/create-user.service';
 import { RpcTransformer } from '../decorators/rpc-transformer.decorator';
 

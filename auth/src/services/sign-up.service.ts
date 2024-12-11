@@ -4,11 +4,10 @@ import {
   InternalServerErrorException,
   OnModuleInit,
 } from '@nestjs/common';
-import { SignUpDto } from '../dtos/sign-up.dto';
 import { TokenGeneratorService } from './token-generator.service';
 import { AUTH_SERVICE } from '../constants/kafka.constants';
 import { ClientKafka } from '@nestjs/microservices';
-import { CREATE_USER, User } from '@my-rus-package/ticketing';
+import { CREATE_USER, SignUpDto, User } from '@my-rus-package/ticketing';
 import { firstValueFrom } from 'rxjs';
 
 @Injectable()
