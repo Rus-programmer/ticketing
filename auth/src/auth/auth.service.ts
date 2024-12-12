@@ -36,11 +36,9 @@ export class AuthService implements OnModuleInit, OnModuleDestroy {
   ) {}
 
   async onModuleInit() {
-    await this.client.connect();
     this.client.subscribeToResponseOf(CREATE_USER);
     this.client.subscribeToResponseOf(GET_USER_BY_EMAIL);
     this.client.subscribeToResponseOf(GET_USER_BY_ID);
-    console.log('subscribed to topics');
   }
 
   async signUp(createUserDto: SignUpDto) {

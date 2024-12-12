@@ -9,7 +9,6 @@ import { JwtModule } from '@nestjs/jwt';
 import { APP_GUARD } from '@nestjs/core';
 import { AuthGuard, KafkaTopicsService } from '@my-rus-package/ticketing';
 import { AuthModule } from './auth/auth.module';
-import { CurrentUserService } from './services/current-user.service';
 
 @Module({
   imports: [

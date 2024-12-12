@@ -8,9 +8,10 @@ import {
   UtilsModule,
 } from '@my-rus-package/ticketing';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ClientsModule, Transport } from '@nestjs/microservices';
+import { ClientsModule } from '@nestjs/microservices';
 import { USERS_SERVICE } from '../constants/kafka.constants';
 import { GetUserService } from '../services/get-user.service';
+import kafkaConfig from '../config/kafka.config';
 
 @Module({
   imports: [
@@ -19,16 +20,7 @@ import { GetUserService } from '../services/get-user.service';
     ClientsModule.register([
       {
         name: USERS_SERVICE,
-        transport: Transport.KAFKA,
-        options: {
-          client: {
-            clientId: 'users',
-            brokers: ['kafka-srv:9092'],
-          },
-          consumer: {
-            groupId: 'users-consumer',
-          },
-        },
+        ...kafkaConfig,
       },
     ]),
   ],
