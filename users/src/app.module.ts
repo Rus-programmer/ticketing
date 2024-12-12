@@ -9,7 +9,6 @@ import environmentValidation from './config/environment.validation';
 import appConfig from './config/app.config';
 import { APP_FILTER } from '@nestjs/core';
 import { RpcExFilter } from './filters/rpc-exception.filter';
-import { KafkaTopicsService } from '@my-rus-package/ticketing';
 
 @Module({
   imports: [

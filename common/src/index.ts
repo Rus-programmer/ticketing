@@ -22,3 +22,4 @@ export * from './kafka/services/kafka-topics.service';
 export * from './dtos/sign-in.dto';
 export * from './dtos/sign-up.dto';
 export * from './dtos/create-user.dto';
+export * from './dtos/pagination.dto';

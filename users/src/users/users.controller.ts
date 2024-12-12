@@ -1,6 +1,8 @@
 import {
   ClassSerializerInterceptor,
   Controller,
+  Get,
+  Query,
   UseInterceptors,
 } from '@nestjs/common';
 import { MessagePattern, Payload } from '@nestjs/microservices';
@@ -9,6 +11,7 @@ import {
   CreateUserDto,
   GET_USER_BY_EMAIL,
   GET_USER_BY_ID,
+  PaginationDto,
 } from '@my-rus-package/ticketing';
 import { CreateUserService } from '../services/create-user.service';
 import { RpcTransformer } from '../decorators/rpc-transformer.decorator';
@@ -38,8 +41,12 @@ export class UsersController {
   @MessagePattern(GET_USER_BY_ID)
   @UseInterceptors(ClassSerializerInterceptor)
   @RpcTransformer()
-  async getUserById(@Payload() id: number) {
-    console.log('id type', typeof id);
+  async getUserById(@Payload() id: string) {
     return await this.getUserService.getUserById(id);
+  }
+
+  @Get()
+  async getUsers(@Query() { limit = 0, page = 1 }: PaginationDto) {
+    return this.getUserService.getUsers(limit, limit * (page - 1));
   }
 }
