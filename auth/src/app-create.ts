@@ -2,7 +2,6 @@ import { INestApplication, ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import * as session from 'express-session';
 import kafkaConfig from './config/kafka.config';
-import { Kafka } from 'kafkajs';
 
 export default async function (app: INestApplication) {
   const configService = app.get(ConfigService);

@@ -47,5 +47,6 @@ export class KafkaTopicsService implements OnModuleInit {
         },
       ],
     });
+    console.log('topics created');
   }
 }

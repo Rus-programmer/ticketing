@@ -9,6 +9,10 @@ const kafkaConfig: KafkaOptions = {
     },
     consumer: {
       groupId: 'auth-consumers',
+      allowAutoTopicCreation: true,
+    },
+    producer: {
+      allowAutoTopicCreation: true,
     },
   },
 };
