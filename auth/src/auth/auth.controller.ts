@@ -1,20 +1,30 @@
-import { Body, Controller, Delete, Post, Req, Session } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Post,
+  Req,
+  Session,
+} from '@nestjs/common';
 import { SessionService } from '../services/session.service';
 import {
   Auth,
   AuthType,
+  ISessionData,
   SignInDto,
   SignUpDto,
 } from '@my-rus-package/ticketing';
 import { Request } from 'express';
 import { AuthService } from './auth.service';
-import { SessionData } from 'express-session';
+import { CurrentUserService } from '../services/current-user.service';
 
 @Controller('auth')
 export class AuthController {
   constructor(
     private authService: AuthService,
     private sessionService: SessionService,
+    private currentUserService: CurrentUserService,
   ) {}
 
   @Post('sign-up')
@@ -38,7 +48,6 @@ export class AuthController {
   @Post('refresh-token')
   @Auth(AuthType.RefreshToken)
   refreshAccessToken(@Req() request: Request) {
-    console.log('refresh token');
     const data = this.authService.refreshAccessToken(request);
     this.sessionService.assign(request, data);
 
@@ -46,7 +55,12 @@ export class AuthController {
   }
 
   @Delete('sign-out')
-  async signOut(@Session() session: SessionData) {
+  signOut(@Session() session: ISessionData) {
     return this.sessionService.remove(session);
+  }
+
+  @Get('current-user')
+  getCurrentUser(@Session() session: ISessionData) {
+    return this.currentUserService.getCurrentUser(session);
   }
 }

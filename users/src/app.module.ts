@@ -28,7 +28,6 @@ import { KafkaTopicsService } from '@my-rus-package/ticketing';
       provide: APP_FILTER,
       useClass: RpcExFilter,
     },
-    KafkaTopicsService,
   ],
 })
 export class AppModule {}

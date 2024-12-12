@@ -10,6 +10,7 @@ import { SignInService } from '../services/sign-in.service';
 import {
   CREATE_USER,
   GET_USER_BY_EMAIL,
+  GET_USER_BY_ID,
   IPayload,
   ISessionData,
   SignInDto,
@@ -36,6 +37,7 @@ export class AuthService implements OnModuleInit {
   onModuleInit() {
     this.client.subscribeToResponseOf(CREATE_USER);
     this.client.subscribeToResponseOf(GET_USER_BY_EMAIL);
+    this.client.subscribeToResponseOf(GET_USER_BY_ID);
   }
 
   async signUp(createUserDto: SignUpDto) {

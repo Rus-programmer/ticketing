@@ -8,6 +8,7 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
 import { AUTH_SERVICE } from '../constants/kafka.constants';
 import { SessionService } from '../services/session.service';
 import { UtilsModule } from '@my-rus-package/ticketing';
+import { CurrentUserService } from '../services/current-user.service';
 
 @Module({
   imports: [
@@ -35,6 +36,8 @@ import { UtilsModule } from '@my-rus-package/ticketing';
     SignInService,
     TokenGeneratorService,
     SessionService,
+    CurrentUserService,
+    CurrentUserService,
   ],
 })
 export class AuthModule {}
