@@ -6,7 +6,6 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import {
-  GET_USER_BY_EMAIL,
   GET_USER_BY_ID,
   IPayload,
   ISessionData,
