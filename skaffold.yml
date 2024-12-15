@@ -22,7 +22,7 @@ build:
         dockerfile: Dockerfile
       sync:
         manual:
-          - src: "src/**/*.ts"
+          - src: "src/**/*.js"
             dest: .
     - image: rustolebayev/users
       context: users
