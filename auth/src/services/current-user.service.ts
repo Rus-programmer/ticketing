@@ -26,9 +26,9 @@ export class CurrentUserService {
   ) {}
 
   async getCurrentUser(session: ISessionData) {
-    const token = session.tokens.accessToken;
     let payload: IPayload;
     try {
+      const token = session.tokens.accessToken;
       payload = this.jwtService.verify(token, {
         secret: this.configService.get('jwt.accessTokenSecret'),
       });
