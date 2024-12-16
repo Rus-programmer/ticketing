@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: tickets-database-depl
+spec:
+  serviceName: tickets-database-srv
+  selector:
+    matchLabels:
+      app: tickets-database
+  template:
+    metadata:
+      labels:
+        app: tickets-database
+    spec:
+      containers:
+        - name: tickets-database
+          image: postgres:17.2-alpine3.19
+          env:
+            - name: POSTGRES_PASSWORD
+              value: password
+            - name: POSTGRES_DB
+              value: postgres
+            - name: POSTGRES_USER
+              value: postgres
+          volumeMounts:
+            - name: postgres-data
+              mountPath: /var/lib/postgresql/data
+  volumeClaimTemplates:
+    - metadata:
+        name: postgres-data
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        resources:
+          requests:
+            storage: 1Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tickets-database-srv
+spec:
+  selector:
+    app: tickets-database
+  ports:
+    - port: 5432
+      targetPort: 5432
+      name: tickets-database

@@ -35,6 +35,19 @@ spec:
     - matches:
         - path:
             type: PathPrefix
+            value: /api/v1/tickets
+      filters:
+        - type: URLRewrite
+          urlRewrite:
+            path:
+              type: ReplacePrefixMatch
+              replacePrefixMatch: /tickets
+      backendRefs:
+        - name: tickets-srv
+          port: 3000
+    - matches:
+        - path:
+            type: PathPrefix
             value: /
       backendRefs:
         - name: client-srv
