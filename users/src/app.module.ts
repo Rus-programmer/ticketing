@@ -9,13 +9,14 @@ import environmentValidation from './config/environment.validation';
 import appConfig from './config/app.config';
 import { APP_FILTER } from '@nestjs/core';
 import { RpcExFilter } from './filters/rpc-exception.filter';
+import jwtConfig from '@my-rus-package/ticketing/dist/configs/jwt.config';
 
 @Module({
   imports: [
     UsersModule,
     ConfigModule.forRoot({
       isGlobal: true,
-      load: [databaseConfig, appConfig],
+      load: [databaseConfig, appConfig, jwtConfig],
       validationSchema: environmentValidation,
     }),
     TypeOrmModule.forRootAsync(databaseConfig.asProvider() as any),
@@ -23,6 +24,10 @@ import { RpcExFilter } from './filters/rpc-exception.filter';
   controllers: [AppController],
   providers: [
     AppService,
+    {
+      provide: APP_FILTER,
+      useClass: RpcExFilter,
+    },
     {
       provide: APP_FILTER,
       useClass: RpcExFilter,
