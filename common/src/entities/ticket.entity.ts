@@ -16,11 +16,14 @@ export class Ticket {
     length: 500,
     type: 'varchar',
     nullable: false,
+    unique: true,
   })
   title: string;
 
   @Column({
-    type: 'bigint',
+    type: 'decimal',
+    precision: 6,
+    scale: 2,
     nullable: false,
   })
   price: number;
