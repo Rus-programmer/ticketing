@@ -31,7 +31,6 @@ export class Ticket {
   @Column({
     type: 'int',
     nullable: false,
-    unique: true,
     update: false,
   })
   userId: number;
