@@ -28,8 +28,6 @@ spec:
         - name: auth
           image: rustolebayev/auth
           env:
-            - name: SESSION_SECRET
-              value: some-session-secret
             - name: JWT_ACCESS_SECRET
               value: some-access-secret
             - name: JWT_ACCESS_TTL

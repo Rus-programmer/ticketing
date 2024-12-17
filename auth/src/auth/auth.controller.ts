@@ -1,21 +1,14 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Post,
-  Req,
-  Session,
-} from '@nestjs/common';
+import { Body, Controller, Delete, Get, Post, Req, Res } from '@nestjs/common';
 import { SessionService } from '../services/session.service';
 import {
   Auth,
   AuthType,
-  ISessionData,
+  Cookies,
+  ICookiesData,
   SignInDto,
   SignUpDto,
 } from '@my-rus-package/ticketing';
-import { Request } from 'express';
+import { Request, Response } from 'express';
 import { AuthService } from './auth.service';
 import { CurrentUserService } from '../services/current-user.service';
 
@@ -29,38 +22,49 @@ export class AuthController {
 
   @Post('sign-up')
   @Auth(AuthType.None)
-  async signUp(@Body() createUserDto: SignUpDto, @Req() request: Request) {
+  async signUp(
+    @Body() createUserDto: SignUpDto,
+    @Req() request: Request,
+    @Res({ passthrough: true }) response: Response,
+  ) {
     const data = await this.authService.signUp(createUserDto);
-    this.sessionService.assign(request, data);
+    this.sessionService.assign(request, response, data);
 
     return data.user;
   }
 
   @Post('sign-in')
   @Auth(AuthType.None)
-  async signIn(@Body() updateUserDto: SignInDto, @Req() request: Request) {
+  async signIn(
+    @Body() updateUserDto: SignInDto,
+    @Req() request: Request,
+    @Res({ passthrough: true }) response: Response,
+  ) {
     const data = await this.authService.signIn(updateUserDto);
-    this.sessionService.assign(request, data);
+    this.sessionService.assign(request, response, data);
 
     return data.user;
   }
 
   @Post('refresh-token')
   @Auth(AuthType.RefreshToken)
-  refreshAccessToken(@Req() request: Request) {
+  refreshAccessToken(
+    @Req() request: Request,
+    @Res({ passthrough: true }) response: Response,
+  ) {
     const data = this.authService.refreshAccessToken(request);
-    this.sessionService.assign(request, data);
+    this.sessionService.assign(request, response, data);
 
     return;
   }
 
   @Delete('sign-out')
-  signOut(@Session() session: ISessionData) {
-    return this.sessionService.remove(session);
+  signOut(@Res({ passthrough: true }) response: Response) {
+    return this.sessionService.remove(response);
   }
 
   @Get('current-user')
-  getCurrentUser(@Session() session: ISessionData) {
-    return this.currentUserService.getCurrentUser(session);
+  getCurrentUser(@Cookies() cookies: ICookiesData) {
+    return this.currentUserService.getCurrentUser(cookies);
   }
 }

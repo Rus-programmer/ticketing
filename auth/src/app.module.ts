@@ -3,7 +3,6 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import environmentValidation from './config/environment.validation';
-import appConfig from './config/app.config';
 import jwtConfig from './config/jwt.config';
 import { JwtModule } from '@nestjs/jwt';
 import { APP_GUARD } from '@nestjs/core';
@@ -14,7 +13,7 @@ import { AuthModule } from './auth/auth.module';
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      load: [appConfig, jwtConfig],
+      load: [jwtConfig],
       validationSchema: environmentValidation,
     }),
     JwtModule.registerAsync({

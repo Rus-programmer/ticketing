@@ -12,8 +12,8 @@ import {
   CREATE_USER,
   GET_USER_BY_EMAIL,
   GET_USER_BY_ID,
+  ICookiesData,
   IPayload,
-  ISessionData,
   SignInDto,
   SignUpDto,
 } from '@my-rus-package/ticketing';
@@ -50,10 +50,10 @@ export class AuthService implements OnModuleInit, OnModuleDestroy {
   }
 
   refreshAccessToken(request: Request) {
-    const session = request.session as ISessionData;
-    const oldRefreshToken = session.tokens.refreshToken;
+    const cookies = request.cookies as ICookiesData;
+    const oldRefreshToken = cookies.refreshToken;
 
-    if (session.userAgent !== request.headers['user-agent']) {
+    if (cookies.userAgent !== request.headers['user-agent']) {
       throw new UnauthorizedException('Invalid credentials');
     }
 

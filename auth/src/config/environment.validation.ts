@@ -9,5 +9,4 @@ export default Joi.object({
   JWT_REFRESH_SECRET: Joi.string().required(),
   JWT_ACCESS_TTL: Joi.string().required(),
   JWT_REFRESH_TTL: Joi.string().required(),
-  SESSION_SECRET: Joi.string().required(),
 });

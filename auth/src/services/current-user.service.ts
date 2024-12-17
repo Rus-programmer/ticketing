@@ -1,5 +1,4 @@
 import {
-  BadRequestException,
   Inject,
   Injectable,
   InternalServerErrorException,
@@ -7,8 +6,8 @@ import {
 } from '@nestjs/common';
 import {
   GET_USER_BY_ID,
+  ICookiesData,
   IPayload,
-  ISessionData,
   User,
 } from '@my-rus-package/ticketing';
 import { firstValueFrom } from 'rxjs';
@@ -25,10 +24,10 @@ export class CurrentUserService {
     @Inject(AUTH_SERVICE) private client: ClientKafka,
   ) {}
 
-  async getCurrentUser(session: ISessionData) {
+  async getCurrentUser(cookies: ICookiesData) {
     let payload: IPayload;
     try {
-      const token = session.tokens.accessToken;
+      const token = cookies.accessToken;
       payload = this.jwtService.verify(token, {
         secret: this.configService.get('jwt.accessTokenSecret'),
       });

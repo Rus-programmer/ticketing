@@ -1,19 +1,19 @@
 import { Injectable } from '@nestjs/common';
-import { Request } from 'express';
-import { ISessionData, ITokens } from '@my-rus-package/ticketing';
+import { Request, Response } from 'express';
 
 @Injectable()
 export class SessionService {
-  assign(request: Request, { accessToken, refreshToken }: ITokens) {
-    request.session.tokens = {
-      accessToken,
-      refreshToken,
-    };
-    request.session.userAgent = request.headers['user-agent'];
+  assign(request: Request, response: Response, { accessToken, refreshToken }) {
+    response.cookie('accessToken', accessToken, { httpOnly: true });
+    response.cookie('refreshToken', refreshToken, { httpOnly: true });
+    response.cookie('userAgent', request.headers['user-agent'], {
+      httpOnly: true,
+    });
   }
 
-  remove(session: ISessionData) {
-    session.tokens = null;
-    session.userAgent = null;
+  remove(response: Response) {
+    response.clearCookie('accessToken');
+    response.clearCookie('refreshToken');
+    response.clearCookie('userAgent');
   }
 }
