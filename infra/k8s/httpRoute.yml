@@ -5,6 +5,8 @@ metadata:
 spec:
   parentRefs:
     - name: ticketing
+  hostnames:
+    - "ticketing.rus"
   rules:
     - matches:
         - path:
