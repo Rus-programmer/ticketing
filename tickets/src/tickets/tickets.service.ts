@@ -32,9 +32,7 @@ export class TicketsService {
     }
 
     try {
-      console.log('begin...');
       const userId = request['user'].id;
-      console.log('userId', userId);
       ticket = this.ticketRepository.create({ title, price, userId });
       await this.ticketRepository.save(ticket);
       return ticket;
