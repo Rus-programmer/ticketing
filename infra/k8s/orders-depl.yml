@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: orders-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: orders
+  template:
+    metadata:
+      labels:
+        app: orders
+    spec:
+      initContainers:
+        - name: wait-for-kafka
+          image: busybox
+          command:
+            - sh
+            - -c
+            - |
+              until nc -z kafka-srv 9092; do
+                echo "Waiting for Kafka to be ready...";
+                sleep 2;
+              done;
+              echo "Kafka is ready!";
+      containers:
+        - name: orders
+          image: rustolebayev/orders
+          env:
+            - name: DATABASE_PASSWORD
+              value: password
+            - name: DATABASE_NAME
+              value: postgres
+            - name: DATABASE_HOST
+              value: orders-database-srv
+            - name: JWT_ACCESS_SECRET
+              value: some-access-secret
+            - name: JWT_REFRESH_SECRET
+              value: some-refresh-secret
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: orders-srv
+spec:
+  selector:
+    app: orders
+  ports:
+    - port: 3000
+      targetPort: 3000
+      name: orders
+      protocol: TCP

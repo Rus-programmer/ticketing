@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: orders-database-depl
+spec:
+  serviceName: orders-database-srv
+  selector:
+    matchLabels:
+      app: orders-database
+  template:
+    metadata:
+      labels:
+        app: orders-database
+    spec:
+      containers:
+        - name: orders-database
+          image: postgres:17.2-alpine3.19
+          env:
+            - name: POSTGRES_PASSWORD
+              value: password
+            - name: POSTGRES_DB
+              value: postgres
+            - name: POSTGRES_USER
+              value: postgres
+          volumeMounts:
+            - name: postgres-data
+              mountPath: /var/lib/postgresql/data
+  volumeClaimTemplates:
+    - metadata:
+        name: postgres-data
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        resources:
+          requests:
+            storage: 1Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: orders-database-srv
+spec:
+  selector:
+    app: orders-database
+  ports:
+    - port: 5432
+      targetPort: 5432
+      name: orders-database
