@@ -4,6 +4,7 @@ import {
   CREATE_USER,
   GET_USER_BY_EMAIL,
   GET_USER_BY_ID,
+  TICKET_CREATED,
 } from '../constants/topics.constants';
 
 @Injectable()
@@ -42,6 +43,16 @@ export class KafkaTopicsService implements OnModuleInit {
         },
         {
           topic: `${GET_USER_BY_ID}.reply`,
+          numPartitions: 3,
+          replicationFactor: 1,
+        },
+        {
+          topic: TICKET_CREATED,
+          numPartitions: 3,
+          replicationFactor: 1,
+        },
+        {
+          topic: `${TICKET_CREATED}.reply`,
           numPartitions: 3,
           replicationFactor: 1,
         },
