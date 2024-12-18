@@ -1,14 +1,13 @@
 import { Column, Entity } from 'typeorm';
 import { Ticket } from './ticket.entity';
+import { Order } from './order.entity';
 
-@Entity({
-  name: 'tickets',
-})
+@Entity('tickets')
 export class TicketTickets extends Ticket {
   @Column({
     type: 'int',
     unique: true,
     nullable: true,
   })
-  orderId?: number;
+  order?: Order;
 }

@@ -7,7 +7,7 @@ import {
 import { JwtService } from '@nestjs/jwt';
 import { Reflector } from '@nestjs/core';
 import { AUTH_TYPE_KEY } from '../constants/auth.constants';
-import { AuthType } from '../enums/auth.type.enum';
+import { AuthType } from '../enums/auth-type.enum';
 import { ConfigService } from '@nestjs/config';
 import { ICookiesData } from '../interfaces/cookies.interface';
 
