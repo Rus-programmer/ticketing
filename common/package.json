@@ -1,6 +1,6 @@
 {
   "name": "@my-rus-package/ticketing",
-  "version": "1.2.1",
+  "version": "1.4.3",
   "main": "dist/index.js",
   "description": "Common package for ticketing project",
   "author": "Rus",
@@ -10,7 +10,9 @@
   ],
   "scripts": {
     "build": "nest build",
-    "pub": "npm run build && npm version patch && npm publish"
+    "pub": "npm run build && npm version patch && npm publish",
+    "pub:minor": "npm run build && npm version minor && npm publish",
+    "pub:major": "npm run build && npm version major && npm publish"
   },
   "peerDependencies": {
     "@nestjs/common": "^10.0.0",

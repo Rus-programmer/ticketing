@@ -1,6 +1,5 @@
 import { Column, Entity } from 'typeorm';
-import { Ticket } from './ticket.entity';
-import { Order } from './order.entity';
+import { Order, Ticket } from '@my-rus-package/ticketing';
 
 @Entity('tickets')
 export class TicketTickets extends Ticket {
