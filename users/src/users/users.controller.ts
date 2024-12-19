@@ -12,9 +12,9 @@ import {
   GET_USER_BY_EMAIL,
   GET_USER_BY_ID,
   PaginationDto,
+  RpcTransformer,
 } from '@my-rus-package/ticketing';
 import { CreateUserService } from '../services/create-user.service';
-import { RpcTransformer } from '../decorators/rpc-transformer.decorator';
 import { GetUserService } from '../services/get-user.service';
 
 @Controller('users')

@@ -1,0 +1,1 @@
+export const TICKETS_SERVICE = 'TICKETS_SERVICE';

@@ -1,23 +1,28 @@
 import {
   BadRequestException,
   ConflictException,
+  Inject,
   Injectable,
   InternalServerErrorException,
 } from '@nestjs/common';
 import {
   CreateTicketDto,
-  TicketTickets,
+  TICKET_CREATED,
   UpdateTicketDto,
 } from '@my-rus-package/ticketing';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Request } from 'express';
+import { TICKETS_SERVICE } from '../constants/kafka.constants';
+import { ClientKafka } from '@nestjs/microservices';
+import { TicketTickets } from '../entities/ticket.tickets.entity';
 
 @Injectable()
 export class TicketsService {
   constructor(
     @InjectRepository(TicketTickets)
     private readonly ticketRepository: Repository<TicketTickets>,
+    @Inject(TICKETS_SERVICE) private readonly client: ClientKafka,
   ) {}
 
   async create({ title, price }: CreateTicketDto, request: Request) {
@@ -35,6 +40,7 @@ export class TicketsService {
       const userId = request['user'].id;
       ticket = this.ticketRepository.create({ title, price, userId });
       await this.ticketRepository.save(ticket);
+      this.client.emit<number>(TICKET_CREATED, JSON.stringify(ticket));
       return ticket;
     } catch (e) {
       throw new InternalServerErrorException(e.message);
