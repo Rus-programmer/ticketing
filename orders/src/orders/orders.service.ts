@@ -23,7 +23,9 @@ export class OrdersService {
 
   async getOrders() {
     try {
-      return await this.orderRepository.find();
+      return await this.orderRepository.find({
+        relations: ['ticket'],
+      });
     } catch (e) {
       throw new InternalServerErrorException(e.message);
     }
@@ -71,10 +73,11 @@ export class OrdersService {
         expiresAt: expiration,
         userId: request['user']?.id,
       });
-      return await this.orderRepository.save(newOrder);
+      newOrder = await this.orderRepository.save(newOrder);
     } catch (e) {
       throw new InternalServerErrorException(e.message);
     }
+    return newOrder;
   }
 
   async getById(id: number) {

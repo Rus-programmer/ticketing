@@ -7,23 +7,13 @@ import {
   Post,
   Req,
 } from '@nestjs/common';
-import { EventPattern, Payload } from '@nestjs/microservices';
 import { Request } from 'express';
 import { OrdersService } from './orders.service';
-import { TicketsService } from '../services/tickets.service';
-import {
-  CreateTicketOrdersDto,
-  RpcTransformer,
-  TICKET_CREATED,
-} from '@my-rus-package/ticketing';
 import { CreateOrderDto } from '@my-rus-package/ticketing';
 
 @Controller('orders')
 export class OrdersController {
-  constructor(
-    private readonly ordersService: OrdersService,
-    private readonly ticketService: TicketsService,
-  ) {}
+  constructor(private readonly ordersService: OrdersService) {}
 
   @Get()
   getOrders() {
@@ -32,7 +22,6 @@ export class OrdersController {
 
   @Get(':id')
   getOrderById(@Param('id', ParseIntPipe) id: number) {
-    console.log('ffkdljdljfvmcx,.vmxc');
     return this.ordersService.getById(id);
   }
 
@@ -42,11 +31,5 @@ export class OrdersController {
     @Req() request: Request,
   ) {
     return this.ordersService.create(createOrderDto, request);
-  }
-
-  @EventPattern(TICKET_CREATED)
-  @RpcTransformer()
-  async createTicket(@Payload() createTicketOrdersDto: CreateTicketOrdersDto) {
-    await this.ticketService.create(createTicketOrdersDto);
   }
 }
