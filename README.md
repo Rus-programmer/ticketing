@@ -3,7 +3,7 @@
 
 This is my pet project where I want to apply my ideas.  
 My first bucket list idea is to apply some stress tests (e2e) where I want to identify weaknesses, bottlenecks, and other potential issues.  
-Second is to embed redis.  
+The second is to integrate Redis.
 After that I want to scaffold a good client side on latest next version and maybe add some features to project facing new challenges.
 
 ## Run Locally
