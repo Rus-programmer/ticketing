@@ -5,6 +5,7 @@ This is my pet project where I want to apply my ideas.
 My first bucket list idea is to apply some stress tests (e2e) where I want to identify weaknesses, bottlenecks, and other potential issues.  
 Second is to embed redis.  
 After that I want to scaffold a good client side on latest next version and maybe add some features to project facing new challenges.
+
 ## Run Locally
 
 First you need to install the Gateway API resources
@@ -33,6 +34,7 @@ Start project
 
 After all you have to add ticketing.rus to your hosts or just remove hostnames line in ./infra/k8s/httpRoute.yml file.  
 http://ticketing.rus or http://localhost on your browser
+
 ## Appendix
 
 You may encounter some errors related to [this unfixed issue](https://github.com/tulios/kafkajs/issues/815). In such cases you have to delete the affected pods and k8s deployments can recreate them.
