@@ -1,10 +1,10 @@
 
 # Ticketing
 
-This is my pet project where i want to apply my ideas.  
-My first bucket list idea is to apply some stress tests (e2e) where i want to bare weakness places, bottlenecks etc.  
+This is my pet project where I want to apply my ideas.  
+My first bucket list idea is to apply some stress tests (e2e) where I want to identify weaknesses, bottlenecks, and other potential issues.  
 Second is to embed redis.  
-After that i want to scaffold a good client side on actual next version and maybe add some features facing new challenges.
+After that I want to scaffold a good client side on latest next version and maybe add some features to project facing new challenges.
 ## Run Locally
 
 First you need to install the Gateway API resources
