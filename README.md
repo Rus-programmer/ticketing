@@ -31,7 +31,7 @@ Start project
   skaffold dev
 ```
 
-After all you have to add ticketing.rus to your hosts or just remove hostnames line in ./infra/k8s/httpRoute.yml file
+After all you have to add ticketing.rus to your hosts or just remove hostnames line in ./infra/k8s/httpRoute.yml file.  
 http://ticketing.rus or http://localhost on your browser
 ## Appendix
 
