@@ -32,7 +32,7 @@ Start project
 ```
 
 After all you have to add ticketing.rus to your hosts or just remove hostnames line in ./infra/k8s/httpRoute.yml file
-ticketing.rus or localhost on your browser
+http://ticketing.rus or http://localhost on your browser
 ## Appendix
 
 You may encounter some errors related to [this unfixed issue](https://github.com/tulios/kafkajs/issues/815). In such cases you have to delete the affected pods and k8s deployments can recreate them.
