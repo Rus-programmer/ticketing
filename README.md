@@ -2,7 +2,7 @@
 # Ticketing
 
 This is my pet project where i want to apply my ideas.  
-My first bucket idea is to apply some stress tests (e2e) where i want to bare weakness places, bottlenecks etc.  
+My first bucket list idea is to apply some stress tests (e2e) where i want to bare weakness places, bottlenecks etc.  
 Second is to embed redis.  
 After that i want to scaffold a good client side on actual next version and maybe add some features facing new challenges.
 ## Run Locally
