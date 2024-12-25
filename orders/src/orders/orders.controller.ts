@@ -9,7 +9,8 @@ import {
 } from '@nestjs/common';
 import { Request } from 'express';
 import { OrdersService } from './orders.service';
-import { CreateOrderDto } from '@my-rus-package/ticketing';
+import { CreateOrderDto, ORDER_EXPIRED } from '@my-rus-package/ticketing';
+import { EventPattern } from '@nestjs/microservices';
 
 @Controller('orders')
 export class OrdersController {
@@ -31,5 +32,14 @@ export class OrdersController {
     @Req() request: Request,
   ) {
     return this.ordersService.create(createOrderDto, request);
+  }
+
+  @EventPattern(ORDER_EXPIRED)
+  async handleExpiredOrder(id: number) {
+    try {
+      await this.ordersService.setExpired(id);
+    } catch (e) {
+      console.error(e.message);
+    }
   }
 }

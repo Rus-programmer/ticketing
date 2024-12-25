@@ -1,1 +1,1 @@
-export const EXPIRATION_WINDOW_SECONDS = 60 * 15;
+export const EXPIRATION_WINDOW_SECONDS = 60 * 1;

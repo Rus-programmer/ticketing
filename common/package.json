@@ -1,6 +1,6 @@
 {
   "name": "@my-rus-package/ticketing",
-  "version": "1.4.3",
+  "version": "1.4.9",
   "main": "dist/index.js",
   "description": "Common package for ticketing project",
   "author": "Rus",

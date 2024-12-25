@@ -2,8 +2,8 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TicketsModule } from './tickets/tickets.module';
-import { APP_GUARD } from '@nestjs/core';
-import { AuthGuard } from '@my-rus-package/ticketing';
+import { APP_FILTER, APP_GUARD } from '@nestjs/core';
+import { AuthGuard, RpcExFilter } from '@my-rus-package/ticketing';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import databaseConfig from './config/database.config';
@@ -35,6 +35,10 @@ import { JwtModule } from '@nestjs/jwt';
     {
       provide: APP_GUARD,
       useClass: AuthGuard,
+    },
+    {
+      provide: APP_FILTER,
+      useClass: RpcExFilter,
     },
   ],
 })

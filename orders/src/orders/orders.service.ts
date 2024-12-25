@@ -1,5 +1,7 @@
 import {
+  BadRequestException,
   ConflictException,
+  Inject,
   Injectable,
   InternalServerErrorException,
   NotFoundException,
@@ -8,9 +10,15 @@ import { Request } from 'express';
 import { InjectRepository } from '@nestjs/typeorm';
 import { OrderOrders } from '../entites/order.orders.entity';
 import { In, Repository } from 'typeorm';
-import { CreateOrderDto, OrderStatus } from '@my-rus-package/ticketing';
+import {
+  CreateOrderDto,
+  ORDER_CREATED,
+  OrderStatus,
+} from '@my-rus-package/ticketing';
 import { TicketOrders } from '../entites/ticket.orders.entity';
 import { EXPIRATION_WINDOW_SECONDS } from '../constants/expiration.constants';
+import { ORDERS_SERVICE } from '../constants/kafka.constants';
+import { ClientKafka } from '@nestjs/microservices';
 
 @Injectable()
 export class OrdersService {
@@ -19,6 +27,7 @@ export class OrdersService {
     private readonly orderRepository: Repository<OrderOrders>,
     @InjectRepository(TicketOrders)
     private readonly ticketRepository: Repository<TicketOrders>,
+    @Inject(ORDERS_SERVICE) private readonly client: ClientKafka,
   ) {}
 
   async getOrders() {
@@ -74,6 +83,7 @@ export class OrdersService {
         userId: request['user']?.id,
       });
       newOrder = await this.orderRepository.save(newOrder);
+      this.client.emit(ORDER_CREATED, JSON.stringify(newOrder));
     } catch (e) {
       throw new InternalServerErrorException(e.message);
     }
@@ -98,5 +108,17 @@ export class OrdersService {
     }
 
     return order;
+  }
+
+  async setExpired(id: number) {
+    const order = await this.orderRepository.findOneBy({ id });
+    if (!order) {
+      throw new BadRequestException('Such order does not exist');
+    }
+
+    return await this.orderRepository.save({
+      ...order,
+      status: OrderStatus.Cancelled,
+    });
   }
 }

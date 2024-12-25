@@ -8,15 +8,12 @@ import {
   AuthGuard,
   jwtConfig,
   KafkaTopicsService,
+  RpcExFilter,
 } from '@my-rus-package/ticketing';
-import { APP_GUARD } from '@nestjs/core';
+import { APP_FILTER, APP_GUARD } from '@nestjs/core';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ClientsModule } from '@nestjs/microservices';
-import kafkaConfig from './config/kafka.config';
-import { ORDERS_SERVICE } from './constants/kafka.constants';
 import { JwtModule } from '@nestjs/jwt';
 import { OrdersModule } from './orders/orders.module';
-import { TicketsService } from './services/tickets.service';
 
 @Module({
   imports: [
@@ -34,12 +31,6 @@ import { TicketsService } from './services/tickets.service';
         secret: configService.get('jwt.accessTokenSecret'),
       }),
     }),
-    ClientsModule.register([
-      {
-        name: ORDERS_SERVICE,
-        ...kafkaConfig,
-      },
-    ]),
     OrdersModule,
   ],
   controllers: [AppController],
@@ -48,6 +39,10 @@ import { TicketsService } from './services/tickets.service';
     {
       provide: APP_GUARD,
       useClass: AuthGuard,
+    },
+    {
+      provide: APP_FILTER,
+      useClass: RpcExFilter,
     },
     KafkaTopicsService,
   ],

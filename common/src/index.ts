@@ -36,3 +36,4 @@ export * from './dtos/create-ticket.dto';
 export * from './dtos/update-ticket.dto';
 export * from './dtos/create-ticket.orders.dto';
 export * from './dtos/create-order.dto';
+export * from './dtos/order-expire.dto';

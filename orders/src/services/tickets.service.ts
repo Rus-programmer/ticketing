@@ -32,7 +32,6 @@ export class TicketsService {
 
     try {
       const newTicket = this.ticketRepository.create(createTicketOrdersDto);
-      console.log('newTicket', newTicket);
       return await this.ticketRepository.save(newTicket);
     } catch (e) {
       throw new InternalServerErrorException(e.message);

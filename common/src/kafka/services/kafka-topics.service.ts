@@ -4,6 +4,8 @@ import {
   CREATE_USER,
   GET_USER_BY_EMAIL,
   GET_USER_BY_ID,
+  ORDER_CREATED,
+  ORDER_EXPIRED,
   TICKET_CREATED,
 } from '../constants/topics.constants';
 
@@ -53,6 +55,26 @@ export class KafkaTopicsService implements OnModuleInit {
         },
         {
           topic: `${TICKET_CREATED}.reply`,
+          numPartitions: 3,
+          replicationFactor: 1,
+        },
+        {
+          topic: ORDER_CREATED,
+          numPartitions: 3,
+          replicationFactor: 1,
+        },
+        {
+          topic: `${ORDER_CREATED}.reply`,
+          numPartitions: 3,
+          replicationFactor: 1,
+        },
+        {
+          topic: ORDER_EXPIRED,
+          numPartitions: 3,
+          replicationFactor: 1,
+        },
+        {
+          topic: `${ORDER_EXPIRED}.reply`,
           numPartitions: 3,
           replicationFactor: 1,
         },
