@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: payments-database-depl
+spec:
+  serviceName: payments-database-srv
+  selector:
+    matchLabels:
+      app: payments-database
+  template:
+    metadata:
+      labels:
+        app: payments-database
+    spec:
+      containers:
+        - name: payments-database
+          image: postgres:17.2-alpine3.19
+          env:
+            - name: POSTGRES_PASSWORD
+              value: password
+            - name: POSTGRES_DB
+              value: postgres
+            - name: POSTGRES_USER
+              value: postgres
+          volumeMounts:
+            - name: postgres-data
+              mountPath: /var/lib/postgresql/data
+  volumeClaimTemplates:
+    - metadata:
+        name: postgres-data
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        resources:
+          requests:
+            storage: 1Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: payments-database-srv
+spec:
+  selector:
+    app: payments-database
+  ports:
+    - port: 5432
+      targetPort: 5432
+      name: payments-database
