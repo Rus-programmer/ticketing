@@ -10,6 +10,7 @@ export * from './entities/user.entity';
 export * from './entities/ticket.entity';
 export * from './entities/order.entity';
 export * from './entities/ticket.abstract.entity';
+export * from './entities/payment.entity';
 
 export * from './enums/auth-type.enum';
 export * from './enums/order-status.enum';
@@ -37,3 +38,4 @@ export * from './dtos/update-ticket.dto';
 export * from './dtos/create-ticket.orders.dto';
 export * from './dtos/create-order.dto';
 export * from './dtos/order-expire.dto';
+export * from './dtos/create-payment.dto';
