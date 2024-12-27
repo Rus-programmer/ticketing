@@ -12,6 +12,7 @@ import { OrderOrders } from '../entites/order.orders.entity';
 import { In, Repository } from 'typeorm';
 import {
   CreateOrderDto,
+  ORDER_CANCELLED,
   ORDER_CREATED,
   OrderStatus,
 } from '@my-rus-package/ticketing';
@@ -110,15 +111,23 @@ export class OrdersService {
     return order;
   }
 
-  async setExpired(id: number) {
-    const order = await this.orderRepository.findOneBy({ id });
+  async cancel(id: number) {
+    let order = await this.orderRepository.findOneBy({ id });
     if (!order) {
       throw new BadRequestException('Such order does not exist');
     }
 
-    return await this.orderRepository.save({
-      ...order,
-      status: OrderStatus.Cancelled,
-    });
+    try {
+      order = await this.orderRepository.save({
+        ...order,
+        status: OrderStatus.Cancelled,
+      });
+    } catch (e) {
+      throw new InternalServerErrorException(e.message);
+    }
+
+    this.client.emit(ORDER_CANCELLED, JSON.stringify(order));
+
+    return order;
   }
 }

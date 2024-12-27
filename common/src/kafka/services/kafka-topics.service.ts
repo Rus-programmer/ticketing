@@ -5,8 +5,9 @@ import {
   GET_USER_BY_EMAIL,
   GET_USER_BY_ID,
   ORDER_CREATED,
-  ORDER_EXPIRED,
+  ORDER_CANCELLED,
   TICKET_CREATED,
+  ORDER_EXPIRED,
 } from '../constants/topics.constants';
 
 @Injectable()
@@ -75,6 +76,16 @@ export class KafkaTopicsService implements OnModuleInit {
         },
         {
           topic: `${ORDER_EXPIRED}.reply`,
+          numPartitions: 3,
+          replicationFactor: 1,
+        },
+        {
+          topic: ORDER_CANCELLED,
+          numPartitions: 3,
+          replicationFactor: 1,
+        },
+        {
+          topic: `${ORDER_CANCELLED}.reply`,
           numPartitions: 3,
           replicationFactor: 1,
         },

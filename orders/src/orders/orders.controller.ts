@@ -37,7 +37,7 @@ export class OrdersController {
   @EventPattern(ORDER_EXPIRED)
   async handleExpiredOrder(id: number) {
     try {
-      await this.ordersService.setExpired(id);
+      await this.ordersService.cancel(id);
     } catch (e) {
       console.error(e.message);
     }
