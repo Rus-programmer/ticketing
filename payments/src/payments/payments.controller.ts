@@ -25,6 +25,7 @@ export class PaymentsController {
 
   @EventPattern(ORDER_CREATED)
   async createOrder(@Body() createOrderPaymentsDto: CreateOrderPaymentsDto) {
+    console.log('order created');
     await this.orderService.create(createOrderPaymentsDto);
   }
 

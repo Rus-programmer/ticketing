@@ -47,13 +47,12 @@ export class PaymentsService {
       throw new BadRequestException('Cannot pay for an cancelled order');
     }
 
-    let charge: Stripe.Response<Stripe.PaymentIntent>;
+    let charge: Stripe.Response<Stripe.Charge>;
     try {
-      charge = await this.stripeClient.paymentIntents.create({
+      charge = await this.stripeClient.charges.create({
         currency: 'usd',
         amount: order.price * 100,
-        payment_method: token,
-        confirm: true,
+        source: token,
       });
     } catch (e) {
       throw new BadRequestException('Payment failed:', e.message);
@@ -63,7 +62,7 @@ export class PaymentsService {
     try {
       payment = this.paymentRepository.create({
         orderId,
-        stripeId: parseInt(charge.id),
+        stripeId: charge.id,
       });
       payment = await this.paymentRepository.save(payment);
     } catch (e) {
