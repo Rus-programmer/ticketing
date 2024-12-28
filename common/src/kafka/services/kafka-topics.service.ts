@@ -8,6 +8,7 @@ import {
   ORDER_CANCELLED,
   TICKET_CREATED,
   ORDER_EXPIRED,
+  PAYMENT_CREATED,
 } from '../constants/topics.constants';
 
 @Injectable()
@@ -86,6 +87,16 @@ export class KafkaTopicsService implements OnModuleInit {
         },
         {
           topic: `${ORDER_CANCELLED}.reply`,
+          numPartitions: 3,
+          replicationFactor: 1,
+        },
+        {
+          topic: PAYMENT_CREATED,
+          numPartitions: 3,
+          replicationFactor: 1,
+        },
+        {
+          topic: `${PAYMENT_CREATED}.reply`,
           numPartitions: 3,
           replicationFactor: 1,
         },

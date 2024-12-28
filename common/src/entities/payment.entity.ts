@@ -6,11 +6,12 @@ export class Payment {
   id: number;
 
   @Column({
-    type: 'int',
+    type: 'varchar',
     nullable: false,
+    unique: true,
     update: false,
   })
-  stripeId: number;
+  stripeId: string;
 
   @Column({
     type: 'int',

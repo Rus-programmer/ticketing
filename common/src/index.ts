@@ -25,8 +25,11 @@ export * from './decorators/auth.decorator';
 export * from './decorators/cookies.decorator';
 export * from './decorators/rpc-transformer.decorator';
 
-export * from './utils/utils.module';
-export * from './utils/hashing.service';
+export * from './utils/hashing/hashing.module';
+export * from './utils/hashing/hashing.service';
+
+export * from './utils/logger/logger.module';
+export * from './utils/logger/logger.service';
 
 export * from './kafka/services/kafka-topics.service';
 

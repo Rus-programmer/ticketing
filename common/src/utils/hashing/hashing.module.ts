@@ -14,4 +14,4 @@ import { HashingService } from './hashing.service';
   ],
   exports: [HashingService],
 })
-export class UtilsModule {}
+export class HashingModule {}
