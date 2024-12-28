@@ -9,6 +9,7 @@ export * from './kafka/constants/topics.constants';
 export * from './entities/user.entity';
 export * from './entities/ticket.entity';
 export * from './entities/order.entity';
+export * from './entities/order.abstract.entity';
 export * from './entities/ticket.abstract.entity';
 export * from './entities/payment.entity';
 
