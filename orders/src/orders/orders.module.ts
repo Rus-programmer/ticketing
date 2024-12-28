@@ -9,9 +9,11 @@ import { OrdersConsumerController } from './orders-consumer.controller';
 import { ClientsModule } from '@nestjs/microservices';
 import { ORDERS_SERVICE } from '../constants/kafka.constants';
 import kafkaConfig from '../config/kafka.config';
+import { LoggerModule } from '@my-rus-package/ticketing';
 
 @Module({
   imports: [
+    LoggerModule,
     TypeOrmModule.forFeature([TicketOrders, OrderOrders]),
     ClientsModule.register([
       {

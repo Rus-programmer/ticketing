@@ -16,6 +16,7 @@ import {
   ORDER_CREATED,
   OrderStatus,
   PaymentCreatedDto,
+  LoggerService,
 } from '@my-rus-package/ticketing';
 import { TicketOrders } from '../entites/ticket.orders.entity';
 import { EXPIRATION_WINDOW_SECONDS } from '../constants/expiration.constants';
@@ -30,7 +31,10 @@ export class OrdersService {
     @InjectRepository(TicketOrders)
     private readonly ticketRepository: Repository<TicketOrders>,
     @Inject(ORDERS_SERVICE) private readonly client: ClientKafka,
-  ) {}
+    private readonly logger: LoggerService,
+  ) {
+    this.logger.setContext('OrdersService');
+  }
 
   async getOrders() {
     try {
@@ -89,6 +93,7 @@ export class OrdersService {
     } catch (e) {
       throw new InternalServerErrorException(e.message);
     }
+
     return newOrder;
   }
 
