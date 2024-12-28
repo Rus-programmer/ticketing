@@ -11,5 +11,5 @@ export default Joi.object({
   DATABASE_HOST: Joi.string().required(),
   JWT_ACCESS_SECRET: Joi.string().required(),
   JWT_REFRESH_SECRET: Joi.string().required(),
-  BINARY_KEY: Joi.binary().required(),
+  STRIPE_KEY: Joi.string().required(),
 });

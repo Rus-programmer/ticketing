@@ -9,7 +9,12 @@ import {
 } from '@nestjs/common';
 import { Request } from 'express';
 import { OrdersService } from './orders.service';
-import { CreateOrderDto, ORDER_EXPIRED } from '@my-rus-package/ticketing';
+import {
+  CreateOrderDto,
+  ORDER_EXPIRED,
+  PAYMENT_CREATED,
+  PaymentCreatedDto,
+} from '@my-rus-package/ticketing';
 import { EventPattern } from '@nestjs/microservices';
 
 @Controller('orders')
@@ -35,9 +40,18 @@ export class OrdersController {
   }
 
   @EventPattern(ORDER_EXPIRED)
-  async handleExpiredOrder(id: number) {
+  async cancelOrder(id: number) {
     try {
       await this.ordersService.cancel(id);
+    } catch (e) {
+      console.error(e.message);
+    }
+  }
+
+  @EventPattern(PAYMENT_CREATED)
+  async completeOrder(@Body() paymentCreatedDto: PaymentCreatedDto) {
+    try {
+      await this.ordersService.complete(paymentCreatedDto);
     } catch (e) {
       console.error(e.message);
     }

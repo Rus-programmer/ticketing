@@ -15,6 +15,7 @@ import {
   ORDER_CANCELLED,
   ORDER_CREATED,
   OrderStatus,
+  PaymentCreatedDto,
 } from '@my-rus-package/ticketing';
 import { TicketOrders } from '../entites/ticket.orders.entity';
 import { EXPIRATION_WINDOW_SECONDS } from '../constants/expiration.constants';
@@ -112,6 +113,25 @@ export class OrdersService {
   }
 
   async cancel(id: number) {
+    const order = await this.updateStatus(id, OrderStatus.Cancelled);
+
+    this.client.emit(ORDER_CANCELLED, JSON.stringify(order));
+
+    return order;
+  }
+
+  async complete(paymentCreatedDto: PaymentCreatedDto) {
+    const order = await this.updateStatus(
+      paymentCreatedDto.orderId,
+      OrderStatus.Complete,
+    );
+
+    this.client.emit(ORDER_CANCELLED, JSON.stringify(order));
+
+    return order;
+  }
+
+  async updateStatus(id: number, status: OrderStatus) {
     let order = await this.orderRepository.findOneBy({ id });
     if (!order) {
       throw new BadRequestException('Such order does not exist');
@@ -120,13 +140,11 @@ export class OrdersService {
     try {
       order = await this.orderRepository.save({
         ...order,
-        status: OrderStatus.Cancelled,
+        status,
       });
     } catch (e) {
       throw new InternalServerErrorException(e.message);
     }
-
-    this.client.emit(ORDER_CANCELLED, JSON.stringify(order));
 
     return order;
   }
