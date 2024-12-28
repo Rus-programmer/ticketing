@@ -40,3 +40,4 @@ export * from './dtos/create-ticket.orders.dto';
 export * from './dtos/create-order.dto';
 export * from './dtos/order-expire.dto';
 export * from './dtos/create-payment.dto';
+export * from './dtos/payment-created.dto';
