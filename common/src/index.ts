@@ -40,6 +40,7 @@ export * from './dtos/pagination.dto';
 export * from './dtos/create-ticket.dto';
 export * from './dtos/update-ticket.dto';
 export * from './dtos/create-ticket.orders.dto';
+export * from './dtos/update-ticket.orders.dto';
 export * from './dtos/create-order.dto';
 export * from './dtos/order-expire.dto';
 export * from './dtos/create-payment.dto';
