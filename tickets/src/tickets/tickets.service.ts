@@ -8,6 +8,7 @@ import {
 import {
   CreateTicketDto,
   TICKET_CREATED,
+  TICKET_UPDATED,
   UpdateTicketDto,
 } from '@my-rus-package/ticketing';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -40,11 +41,13 @@ export class TicketsService {
       const userId = request['user'].id;
       ticket = this.ticketRepository.create({ title, price, userId });
       await this.ticketRepository.save(ticket);
-      this.client.emit<number>(TICKET_CREATED, JSON.stringify(ticket));
-      return ticket;
     } catch (e) {
       throw new InternalServerErrorException(e.message);
     }
+
+    this.client.emit<number>(TICKET_CREATED, JSON.stringify(ticket));
+
+    return ticket;
   }
 
   async getById(id: number) {
@@ -69,10 +72,10 @@ export class TicketsService {
   }
 
   async update(id: number, updateTicketDto: UpdateTicketDto) {
-    const ticket = await this.getById(id);
+    let ticket = await this.getById(id);
 
     try {
-      return await this.ticketRepository.save({
+      ticket = await this.ticketRepository.save({
         id: ticket.id,
         ...ticket,
         ...updateTicketDto,
@@ -80,5 +83,9 @@ export class TicketsService {
     } catch (e) {
       throw new InternalServerErrorException(e.message);
     }
+
+    this.client.emit<number>(TICKET_UPDATED, JSON.stringify(ticket));
+
+    return ticket;
   }
 }
