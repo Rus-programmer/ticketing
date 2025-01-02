@@ -1,0 +1,16 @@
+{
+  "name": "k6",
+  "version": "1.0.0",
+  "main": "src/sign-in.ts",
+  "scripts": {
+    "test:signin": "k6 run -e EMAIL=bob@b.com -e PASSWORD=123456789qW! src/sign-in.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@types/k6": "^0.54.2",
+    "typescript": "^5.7.2"
+  }
+}
