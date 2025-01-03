@@ -7,7 +7,10 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { TicketOrders } from '../entites/ticket.orders.entity';
 import { Repository } from 'typeorm';
-import { CreateTicketOrdersDto } from '@my-rus-package/ticketing';
+import {
+  CreateTicketOrdersDto,
+  UpdateTicketOrdersDto,
+} from '@my-rus-package/ticketing';
 
 @Injectable()
 export class TicketsService {
@@ -36,6 +39,32 @@ export class TicketsService {
     } catch (e) {
       throw new InternalServerErrorException(e.message);
     }
+  }
+
+  async update(updateTicketOrdersDto: UpdateTicketOrdersDto) {
+    let ticket: TicketOrders;
+    try {
+      ticket = await this.ticketRepository.findOne({
+        where: { id: updateTicketOrdersDto.id },
+      });
+    } catch (e) {
+      throw new InternalServerErrorException(e.message);
+    }
+
+    if (!ticket) {
+      throw new BadRequestException('Such ticket does not exist');
+    }
+
+    try {
+      ticket = await this.ticketRepository.save({
+        ...ticket,
+        ...updateTicketOrdersDto,
+      });
+    } catch (e) {
+      throw new InternalServerErrorException(e.message);
+    }
+
+    return ticket;
   }
 
   async getByTitle(title: string) {

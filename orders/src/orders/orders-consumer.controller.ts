@@ -4,6 +4,7 @@ import {
   CreateTicketOrdersDto,
   RpcTransformer,
   TICKET_CREATED,
+  TICKET_UPDATED,
 } from '@my-rus-package/ticketing';
 import { TicketsService } from '../services/tickets.service';
 
@@ -15,5 +16,11 @@ export class OrdersConsumerController {
   @RpcTransformer()
   async createTicket(@Payload() createTicketOrdersDto: CreateTicketOrdersDto) {
     await this.ticketService.create(createTicketOrdersDto);
+  }
+
+  @EventPattern(TICKET_UPDATED)
+  @RpcTransformer()
+  async updateTicket(@Payload() createTicketOrdersDto: CreateTicketOrdersDto) {
+    await this.ticketService.update(createTicketOrdersDto);
   }
 }
