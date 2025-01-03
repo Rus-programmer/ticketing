@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "main": "src/sign-in.ts",
   "scripts": {
-    "test:signin": "k6 run -e EMAIL=bob@b.com -e PASSWORD=123456789qW! src/sign-in.ts"
+    "test:signin": "k6 run -e EMAIL=bob@b.com -e PASSWORD=123456789qW! src/sign-in.ts",
+    "test:ticket": "k6 run -e USER_AGENT=k6%2F0.55.2%20\\(https%3A%2F%2Fk6.io%2F\\) -e ACCESS_TOKEN=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNzM1OTMxODYwLCJleHAiOjE3MzU5MzI3NjB9.JZkL1RE-cgGi2iU1wz45CS9Q83BCGq0Fuk_KKooEzBk -e REFRESH_TOKEN=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNzM1OTMxODYwLCJleHAiOjE3MzY1MzY2NjB9.vBiXIK6TYx70qhgpjQsMTuqE7m5obZfTNZVF5Pg6V8w src/update-ticket.ts"
   },
   "keywords": [],
   "author": "",
