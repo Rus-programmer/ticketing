@@ -47,12 +47,12 @@ export class TicketsService {
       this.logger.log('Creating ticket');
       ticket = this.ticketRepository.create({ title, price, userId });
       ticket = await this.ticketRepository.save(ticket);
-      this.logger.log('Ticket created', JSON.stringify(ticket));
+      this.logger.log('Ticket created ' + JSON.stringify(ticket));
     } catch (e) {
       throw new InternalServerErrorException(e.message);
     }
 
-    this.logger.log('Emitting ticket', TICKET_CREATED);
+    this.logger.log('Emitting ticket ' + TICKET_CREATED);
     this.client.emit<number>(TICKET_CREATED, JSON.stringify(ticket));
 
     return ticket;
