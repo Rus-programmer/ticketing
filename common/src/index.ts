@@ -3,6 +3,7 @@ export * from './configs/jwt.config';
 export * from './constants/auth.constants';
 
 export * from './filters/rpc-exception.filter';
+export * from './filters/exception-logger.filter';
 
 export * from './kafka/constants/topics.constants';
 
