@@ -6,17 +6,20 @@ import environmentValidation from './config/environment.validation';
 import databaseConfig from './config/database.config';
 import {
   AuthGuard,
+  ExceptionLoggerFilter,
   jwtConfig,
   KafkaTopicsService,
+  LoggerModule,
 } from '@my-rus-package/ticketing';
 import { PaymentsModule } from './payments/payments.module';
 import stripeConfig from './config/stripe.config';
-import { APP_GUARD } from '@nestjs/core';
+import { APP_FILTER, APP_GUARD } from '@nestjs/core';
 import { JwtModule } from '@nestjs/jwt';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 @Module({
   imports: [
+    LoggerModule,
     ConfigModule.forRoot({
       isGlobal: true,
       load: [databaseConfig, jwtConfig, stripeConfig],
@@ -40,6 +43,10 @@ import { TypeOrmModule } from '@nestjs/typeorm';
     {
       provide: APP_GUARD,
       useClass: AuthGuard,
+    },
+    {
+      provide: APP_FILTER,
+      useClass: ExceptionLoggerFilter,
     },
   ],
 })
