@@ -6,4 +6,5 @@ export const TICKET_UPDATED = 'ticket.updated';
 export const ORDER_CREATED = 'order.created';
 export const ORDER_EXPIRED = 'order.expired';
 export const ORDER_CANCELLED = 'order.cancelled';
+export const ORDER_COMPLETED = 'order.completed';
 export const PAYMENT_CREATED = 'payment.created';
