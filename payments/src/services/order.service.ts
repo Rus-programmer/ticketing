@@ -8,7 +8,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { OrderPayment } from '../entities/order.payment.entity';
 import { Repository } from 'typeorm';
 import { CreateOrderPaymentsDto } from '../dtos/create-order.payments.dto';
-import { CancelOrderPaymentsDto } from '../dtos/cancel-order.payments.dto';
+import { UpdateOrderPaymentsDto } from '../dtos/update-order.payments.dto';
 
 @Injectable()
 export class OrderService {
@@ -46,11 +46,11 @@ export class OrderService {
     return order;
   }
 
-  async cancel(cancelOrderPaymentsDto: CancelOrderPaymentsDto) {
+  async update(updateOrderPaymentsDto: UpdateOrderPaymentsDto) {
     let order: OrderPayment;
     try {
       order = await this.orderRepository.findOneBy({
-        id: cancelOrderPaymentsDto.id,
+        id: updateOrderPaymentsDto.id,
       });
     } catch (e) {
       throw new InternalServerErrorException(e.message);
@@ -62,7 +62,7 @@ export class OrderService {
     try {
       order = await this.orderRepository.save({
         ...order,
-        status: cancelOrderPaymentsDto.status,
+        status: updateOrderPaymentsDto.status,
       });
     } catch (e) {
       throw new InternalServerErrorException(e.message);

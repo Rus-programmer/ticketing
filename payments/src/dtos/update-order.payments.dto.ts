@@ -2,7 +2,7 @@ import { IsDate, IsEnum, IsNotEmpty, IsNumber } from 'class-validator';
 import { Type } from 'class-transformer';
 import { OrderStatus } from '@my-rus-package/ticketing';
 
-export class CancelOrderPaymentsDto {
+export class UpdateOrderPaymentsDto {
   @IsNotEmpty()
   @Type(() => Date)
   @IsDate()

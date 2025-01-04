@@ -1,7 +1,7 @@
 import {
   CreatePaymentDto,
-  Order,
   ORDER_CANCELLED,
+  ORDER_COMPLETED,
   ORDER_CREATED,
 } from '@my-rus-package/ticketing';
 import { Body, Controller, Post, Req } from '@nestjs/common';
@@ -10,7 +10,7 @@ import { Request } from 'express';
 import { EventPattern } from '@nestjs/microservices';
 import { OrderService } from '../services/order.service';
 import { CreateOrderPaymentsDto } from '../dtos/create-order.payments.dto';
-import { CancelOrderPaymentsDto } from '../dtos/cancel-order.payments.dto';
+import { UpdateOrderPaymentsDto } from '../dtos/update-order.payments.dto';
 
 @Controller('payments')
 export class PaymentsController {
@@ -30,7 +30,12 @@ export class PaymentsController {
   }
 
   @EventPattern(ORDER_CANCELLED)
-  async cancelOrder(@Body() cancelOrderPaymentsDto: CancelOrderPaymentsDto) {
-    await this.orderService.cancel(cancelOrderPaymentsDto);
+  async cancelOrder(@Body() updateOrderPaymentsDto: UpdateOrderPaymentsDto) {
+    await this.orderService.update(updateOrderPaymentsDto);
+  }
+
+  @EventPattern(ORDER_COMPLETED)
+  async completeOrder(@Body() updateOrderPaymentsDto: UpdateOrderPaymentsDto) {
+    await this.orderService.update(updateOrderPaymentsDto);
   }
 }
