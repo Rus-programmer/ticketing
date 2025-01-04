@@ -6,8 +6,10 @@ import environmentValidation from './config/environment.validation';
 import databaseConfig from './config/database.config';
 import {
   AuthGuard,
+  ExceptionLoggerFilter,
   jwtConfig,
   KafkaTopicsService,
+  LoggerModule,
   RpcExFilter,
 } from '@my-rus-package/ticketing';
 import { APP_FILTER, APP_GUARD } from '@nestjs/core';
@@ -17,6 +19,7 @@ import { OrdersModule } from './orders/orders.module';
 
 @Module({
   imports: [
+    LoggerModule,
     ConfigModule.forRoot({
       isGlobal: true,
       validationSchema: environmentValidation,
@@ -43,6 +46,10 @@ import { OrdersModule } from './orders/orders.module';
     {
       provide: APP_FILTER,
       useClass: RpcExFilter,
+    },
+    {
+      provide: APP_FILTER,
+      useClass: ExceptionLoggerFilter,
     },
     KafkaTopicsService,
   ],
