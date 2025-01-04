@@ -5,8 +5,8 @@ import { TicketsModule } from './tickets/tickets.module';
 import { APP_FILTER, APP_GUARD } from '@nestjs/core';
 import {
   AuthGuard,
+  ExceptionLoggerFilter,
   LoggerModule,
-  RpcExFilter,
 } from '@my-rus-package/ticketing';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -43,7 +43,7 @@ import { JwtModule } from '@nestjs/jwt';
     },
     {
       provide: APP_FILTER,
-      useClass: RpcExFilter,
+      useClass: ExceptionLoggerFilter,
     },
   ],
 })
