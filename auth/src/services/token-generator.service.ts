@@ -16,7 +16,6 @@ export class TokenGeneratorService {
 
   private generator(payload: Buffer | object, options?: JwtSignOptions) {
     try {
-      this.logger.log('Signing token ' + JSON.stringify(payload));
       return this.jwtService.sign(payload, options);
     } catch (e) {
       throw new InternalServerErrorException(e.message);

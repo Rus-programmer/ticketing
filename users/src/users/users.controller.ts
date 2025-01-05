@@ -33,7 +33,7 @@ export class UsersController {
   @RpcTransformer()
   async createUser(@Payload() createUserDto: CreateUserDto) {
     this.logger.log(
-      CREATE_USER + ' kafka event received ' + JSON.stringify(createUserDto),
+      CREATE_USER + ' kafka event received. Email ' + createUserDto.email,
     );
     return await this.createUserService.create(createUserDto);
   }
