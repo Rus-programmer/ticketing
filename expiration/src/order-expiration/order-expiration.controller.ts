@@ -1,6 +1,12 @@
 import { BadRequestException, Controller } from '@nestjs/common';
-import { EventPattern } from '@nestjs/microservices';
 import {
+  Ctx,
+  EventPattern,
+  KafkaContext,
+  Payload,
+} from '@nestjs/microservices';
+import {
+  commitOffsets,
   LoggerService,
   ORDER_CREATED,
   OrderExpireDto,
@@ -19,7 +25,10 @@ export class OrderExpirationController {
   }
 
   @EventPattern(ORDER_CREATED)
-  async handleEvent(order: OrderExpireDto) {
+  async handleEvent(
+    @Payload() order: OrderExpireDto,
+    @Ctx() ctx: KafkaContext,
+  ): Promise<void> {
     this.logger.log(
       ORDER_CREATED + ' kafka event received ' + JSON.stringify(order),
     );
@@ -33,5 +42,7 @@ export class OrderExpirationController {
     }
 
     await this.producersService.createOrderQueue(orderDto);
+
+    commitOffsets(ctx);
   }
 }
