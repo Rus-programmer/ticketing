@@ -7,13 +7,13 @@ import { TokenGeneratorService } from '../services/token-generator.service';
 import { ClientsModule } from '@nestjs/microservices';
 import { AUTH_SERVICE } from '../constants/kafka.constants';
 import { SessionService } from '../services/session.service';
-import { UtilsModule } from '@my-rus-package/ticketing';
+import { HashingModule } from '@my-rus-package/ticketing';
 import { CurrentUserService } from '../services/current-user.service';
 import kafkaConfig from '../config/kafka.config';
 
 @Module({
   imports: [
-    UtilsModule,
+    HashingModule,
     ClientsModule.register([
       {
         name: AUTH_SERVICE,

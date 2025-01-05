@@ -5,7 +5,7 @@ import { CreateUserService } from '../services/create-user.service';
 import {
   KafkaTopicsService,
   User,
-  UtilsModule,
+  HashingModule,
 } from '@my-rus-package/ticketing';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ClientsModule } from '@nestjs/microservices';
@@ -15,7 +15,7 @@ import kafkaConfig from '../config/kafka.config';
 
 @Module({
   imports: [
-    UtilsModule,
+    HashingModule,
     TypeOrmModule.forFeature([User]),
     ClientsModule.register([
       {

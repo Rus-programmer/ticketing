@@ -31,11 +31,11 @@ import {
     AppService,
     {
       provide: APP_FILTER,
-      useClass: RpcExFilter,
+      useClass: ExceptionLoggerFilter,
     },
     {
       provide: APP_FILTER,
-      useClass: ExceptionLoggerFilter,
+      useClass: RpcExFilter,
     },
   ],
 })

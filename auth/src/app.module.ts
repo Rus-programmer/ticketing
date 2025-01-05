@@ -5,8 +5,13 @@ import { AppService } from './app.service';
 import environmentValidation from './config/environment.validation';
 import jwtConfig from './config/jwt.config';
 import { JwtModule } from '@nestjs/jwt';
-import { APP_GUARD } from '@nestjs/core';
-import { AuthGuard, KafkaTopicsService } from '@my-rus-package/ticketing';
+import { APP_FILTER, APP_GUARD } from '@nestjs/core';
+import {
+  AuthGuard,
+  ExceptionLoggerFilter,
+  KafkaTopicsService,
+  LoggerModule,
+} from '@my-rus-package/ticketing';
 import { AuthModule } from './auth/auth.module';
 
 @Module({
@@ -28,6 +33,7 @@ import { AuthModule } from './auth/auth.module';
       }),
     }),
     AuthModule,
+    LoggerModule,
   ],
   controllers: [AppController],
   providers: [
@@ -35,6 +41,10 @@ import { AuthModule } from './auth/auth.module';
     {
       provide: APP_GUARD,
       useClass: AuthGuard,
+    },
+    {
+      provide: APP_FILTER,
+      useClass: ExceptionLoggerFilter,
     },
     KafkaTopicsService,
   ],

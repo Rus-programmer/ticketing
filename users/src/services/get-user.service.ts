@@ -47,7 +47,6 @@ export class GetUserService {
     try {
       this.logger.log('Finding user by options = ' + JSON.stringify(option));
       user = await this.userRepository.findOneBy(option);
-      this.logger.log('Result ' + JSON.stringify({ userId: user.id }));
     } catch (e) {
       throw new InternalServerErrorException(e.message);
     }
@@ -55,6 +54,8 @@ export class GetUserService {
     if (!user) {
       throw new BadRequestException('User not found');
     }
+
+    this.logger.log('Result ' + JSON.stringify({ userId: user.id }));
 
     return user;
   }
