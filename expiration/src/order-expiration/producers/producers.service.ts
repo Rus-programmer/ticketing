@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { Queue } from 'bullmq';
 import { InjectQueue } from '@nestjs/bullmq';
 import { EXPIRATION_ORDER, ORDER } from '../../constants/queue.constants';
@@ -16,7 +16,11 @@ export class ProducersService {
   async createOrderQueue(order: OrderExpireDto) {
     const delay = order.expiresAt.getTime() - new Date().getTime();
     this.logger.log('Delay established ' + delay);
-    await this.orderQueue.add(ORDER, { id: order.id }, { delay });
+    try {
+      await this.orderQueue.add(ORDER, { id: order.id }, { delay });
+    } catch (e) {
+      throw new InternalServerErrorException(e.message);
+    }
     this.logger.log('Added to queue');
   }
 }
