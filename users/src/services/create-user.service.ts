@@ -57,7 +57,7 @@ export class CreateUserService {
         password: hashedPassword,
       });
       newUser = await this.userRepository.save(newUser);
-      this.logger.log('User created');
+      this.logger.log('User created ' + JSON.stringify({ id: newUser.id }));
 
       return newUser;
     } catch (e) {
