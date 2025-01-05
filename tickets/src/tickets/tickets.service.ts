@@ -70,7 +70,7 @@ export class TicketsService {
       throw new BadRequestException('Ticket with that id does not exist');
     }
 
-    this.logger.log('Ticket found', JSON.stringify(ticket));
+    this.logger.log('Ticket found ' + JSON.stringify(ticket));
 
     return ticket;
   }
@@ -93,13 +93,12 @@ export class TicketsService {
         ...ticket,
         ...updateTicketDto,
       });
-      this.logger.log('Ticket updated', JSON.stringify(ticket));
+      this.logger.log('Ticket updated ' + JSON.stringify(ticket));
     } catch (e) {
       throw new InternalServerErrorException(e.message);
     }
 
-    this.logger.log('Emitting ticket', TICKET_UPDATED);
-    this.client.emit<number>(TICKET_UPDATED, JSON.stringify(ticket));
+    this.logger.log('Emitting ticket ' + TICKET_UPDATED);
     this.client.emit<number>(TICKET_UPDATED, {
       key: ticket.id,
       value: JSON.stringify(ticket),
