@@ -100,6 +100,10 @@ export class TicketsService {
 
     this.logger.log('Emitting ticket', TICKET_UPDATED);
     this.client.emit<number>(TICKET_UPDATED, JSON.stringify(ticket));
+    this.client.emit<number>(TICKET_UPDATED, {
+      key: ticket.id,
+      value: JSON.stringify(ticket),
+    });
 
     return ticket;
   }
