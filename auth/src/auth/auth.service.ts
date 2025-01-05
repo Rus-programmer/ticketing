@@ -14,6 +14,7 @@ import {
   GET_USER_BY_ID,
   ICookiesData,
   IPayload,
+  LoggerService,
   SignInDto,
   SignUpDto,
 } from '@my-rus-package/ticketing';
@@ -33,11 +34,17 @@ export class AuthService implements OnModuleInit, OnModuleDestroy {
     private signInService: SignInService,
     private jwtService: JwtService,
     private tokenGeneratorService: TokenGeneratorService,
-  ) {}
+    private logger: LoggerService,
+  ) {
+    logger.setContext('AuthService');
+  }
 
   async onModuleInit() {
+    this.logger.log('Subscribing to ' + CREATE_USER);
     this.client.subscribeToResponseOf(CREATE_USER);
+    this.logger.log('Subscribing to ' + GET_USER_BY_EMAIL);
     this.client.subscribeToResponseOf(GET_USER_BY_EMAIL);
+    this.logger.log('Subscribing to ' + GET_USER_BY_ID);
     this.client.subscribeToResponseOf(GET_USER_BY_ID);
   }
 
@@ -59,9 +66,11 @@ export class AuthService implements OnModuleInit, OnModuleDestroy {
 
     let payload: IPayload;
     try {
+      this.logger.log('Verifying token');
       payload = this.jwtService.verify(oldRefreshToken, {
         secret: this.configService.get('jwt.refreshTokenSecret'),
       });
+      this.logger.log('Payload ' + JSON.stringify(payload));
     } catch (e) {
       throw new BadRequestException(e.message);
     }
@@ -77,5 +86,6 @@ export class AuthService implements OnModuleInit, OnModuleDestroy {
 
   async onModuleDestroy() {
     await this.client.close();
+    this.logger.log('Client closed');
   }
 }

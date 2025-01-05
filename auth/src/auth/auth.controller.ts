@@ -5,6 +5,7 @@ import {
   AuthType,
   Cookies,
   ICookiesData,
+  LoggerService,
   SignInDto,
   SignUpDto,
 } from '@my-rus-package/ticketing';
@@ -18,7 +19,10 @@ export class AuthController {
     private authService: AuthService,
     private sessionService: SessionService,
     private currentUserService: CurrentUserService,
-  ) {}
+    private logger: LoggerService,
+  ) {
+    logger.setContext('AuthController');
+  }
 
   @Post('sign-up')
   @Auth(AuthType.None)
@@ -27,6 +31,7 @@ export class AuthController {
     @Req() request: Request,
     @Res({ passthrough: true }) response: Response,
   ) {
+    this.logger.log('Signing Up');
     const data = await this.authService.signUp(createUserDto);
     this.sessionService.assign(request, response, data);
 
@@ -40,6 +45,7 @@ export class AuthController {
     @Req() request: Request,
     @Res({ passthrough: true }) response: Response,
   ) {
+    this.logger.log('Signing in');
     const data = await this.authService.signIn(updateUserDto);
     this.sessionService.assign(request, response, data);
 
@@ -52,6 +58,7 @@ export class AuthController {
     @Req() request: Request,
     @Res({ passthrough: true }) response: Response,
   ) {
+    this.logger.log('Refreshing token');
     const data = this.authService.refreshAccessToken(request);
     this.sessionService.assign(request, response, data);
 
@@ -60,11 +67,13 @@ export class AuthController {
 
   @Delete('sign-out')
   signOut(@Res({ passthrough: true }) response: Response) {
+    this.logger.log('Signing Out');
     return this.sessionService.remove(response);
   }
 
   @Get('current-user')
   getCurrentUser(@Cookies() cookies: ICookiesData) {
+    this.logger.log('Getting current user');
     return this.currentUserService.getCurrentUser(cookies);
   }
 }
