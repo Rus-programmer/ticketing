@@ -3,7 +3,12 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { BullModule } from '@nestjs/bullmq';
 import { OrderExpirationModule } from './order-expiration/order-expiration.module';
-import { KafkaTopicsService, RpcExFilter } from '@my-rus-package/ticketing';
+import {
+  ExceptionLoggerFilter,
+  KafkaTopicsService,
+  LoggerModule,
+  RpcExFilter,
+} from '@my-rus-package/ticketing';
 import { APP_FILTER } from '@nestjs/core';
 
 @Module({
@@ -24,6 +29,7 @@ import { APP_FILTER } from '@nestjs/core';
       },
     }),
     OrderExpirationModule,
+    LoggerModule,
   ],
   controllers: [AppController],
   providers: [
@@ -32,6 +38,10 @@ import { APP_FILTER } from '@nestjs/core';
     {
       provide: APP_FILTER,
       useClass: RpcExFilter,
+    },
+    {
+      provide: APP_FILTER,
+      useClass: ExceptionLoggerFilter,
     },
   ],
 })
