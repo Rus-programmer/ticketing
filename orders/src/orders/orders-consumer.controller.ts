@@ -1,6 +1,12 @@
 import { Controller } from '@nestjs/common';
-import { EventPattern, Payload } from '@nestjs/microservices';
 import {
+  Ctx,
+  EventPattern,
+  KafkaContext,
+  Payload,
+} from '@nestjs/microservices';
+import {
+  commitOffsets,
   CreateTicketOrdersDto,
   LoggerService,
   RpcTransformer,
@@ -20,15 +26,25 @@ export class OrdersConsumerController {
 
   @EventPattern(TICKET_CREATED)
   @RpcTransformer()
-  async createTicket(@Payload() createTicketOrdersDto: CreateTicketOrdersDto) {
+  async createTicket(
+    @Payload() createTicketOrdersDto: CreateTicketOrdersDto,
+    @Ctx() context: KafkaContext,
+  ) {
     this.logger.log(TICKET_CREATED + ' kafka event received');
     await this.ticketService.create(createTicketOrdersDto);
+
+    commitOffsets(context);
   }
 
   @EventPattern(TICKET_UPDATED)
   @RpcTransformer()
-  async updateTicket(@Payload() createTicketOrdersDto: CreateTicketOrdersDto) {
+  async updateTicket(
+    @Payload() createTicketOrdersDto: CreateTicketOrdersDto,
+    @Ctx() context: KafkaContext,
+  ) {
     this.logger.log(TICKET_UPDATED + ' kafka event received');
     await this.ticketService.update(createTicketOrdersDto);
+
+    commitOffsets(context);
   }
 }

@@ -35,7 +35,7 @@ export class TicketsService {
     }
 
     if (ticket) {
-      throw new ConflictException('Ticket with this title already exists');
+      throw new ConflictException('Ticket with this id already exists');
     }
 
     try {

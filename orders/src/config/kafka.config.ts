@@ -14,6 +14,9 @@ const kafkaConfig: KafkaOptions = {
     producer: {
       allowAutoTopicCreation: true,
     },
+    run: {
+      autoCommit: false,
+    },
   },
 };
 
