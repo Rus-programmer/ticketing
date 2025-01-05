@@ -8,7 +8,12 @@ import { ConfigModule } from '@nestjs/config';
 import environmentValidation from './config/environment.validation';
 import appConfig from './config/app.config';
 import { APP_FILTER } from '@nestjs/core';
-import { jwtConfig, RpcExFilter } from '@my-rus-package/ticketing';
+import {
+  ExceptionLoggerFilter,
+  jwtConfig,
+  LoggerModule,
+  RpcExFilter,
+} from '@my-rus-package/ticketing';
 
 @Module({
   imports: [
@@ -19,6 +24,7 @@ import { jwtConfig, RpcExFilter } from '@my-rus-package/ticketing';
       validationSchema: environmentValidation,
     }),
     TypeOrmModule.forRootAsync(databaseConfig.asProvider() as any),
+    LoggerModule,
   ],
   controllers: [AppController],
   providers: [
@@ -26,6 +32,10 @@ import { jwtConfig, RpcExFilter } from '@my-rus-package/ticketing';
     {
       provide: APP_FILTER,
       useClass: RpcExFilter,
+    },
+    {
+      provide: APP_FILTER,
+      useClass: ExceptionLoggerFilter,
     },
   ],
 })
