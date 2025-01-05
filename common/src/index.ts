@@ -7,6 +7,8 @@ export * from './filters/exception-logger.filter';
 
 export * from './kafka/constants/topics.constants';
 
+export * from './kafka/heplers/commit-offsets.kafka';
+
 export * from './entities/user.entity';
 export * from './entities/ticket.entity';
 export * from './entities/order.entity';
